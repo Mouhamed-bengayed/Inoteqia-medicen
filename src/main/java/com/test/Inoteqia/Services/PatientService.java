@@ -33,10 +33,8 @@ public class PatientService {
 
     @Value("${secret.key")
     private String secretKey;
-    public Patient addPatient(Patient a1){
-        Patient savedPatient = patientRepository.save(a1);
-        return savedPatient;
-    }
+
+
 
     public List<Patient> getAllPatient(){
         return  patientRepository.findAll();
@@ -64,19 +62,36 @@ public class PatientService {
         Patient patient = new Patient(encryptSensitiveInformation(p1.getName()), encryptSensitiveInformation(p1.getUsername()), encryptSensitiveInformation(p1.getEmail()), passwordEncoder.encode(p1.getPassword()), false,encryptSensitiveInformation( p1.getAddress()), false);
 
         Patient patient1 = patientRepository.save(patient);
-        if (patient1.isValid()) {
-            try {
-                return new ResponseEntity<Patient>(patient, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
+        return new ResponseEntity<Patient>(patient1, HttpStatus.OK);
     }
 
+    public List<Patient> getAllPatients() throws Exception {
+        List<Patient> patients = patientRepository.findAll();
+        for (Patient patient : patients) {
+            // Décryptez les données sensibles pour chaque patient
+            patient.setName(decryptSensitiveInformation(patient.getName()));
+            patient.setUsername(decryptSensitiveInformation(patient.getUsername()));
+            patient.setEmail(decryptSensitiveInformation(patient.getEmail()));
+            patient.setAddress(decryptSensitiveInformation(patient.getAddress()));
+        }
+        return patients;
+    }
+
+    // Méthode pour obtenir un patient par son ID
+    public Optional<Patient> getPatientById(Long patientId) throws Exception {
+        Optional<Patient> patientOptional = patientRepository.findById(patientId);
+        if (patientOptional.isPresent()) {
+            Patient patient = patientOptional.get();
+            // Décryptez les données sensibles du patient si nécessaire
+            patient.setName(decryptSensitiveInformation(patient.getName()));
+            patient.setUsername(decryptSensitiveInformation(patient.getUsername()));
+            patient.setEmail(decryptSensitiveInformation(patient.getEmail()));
+            patient.setAddress(decryptSensitiveInformation(patient.getAddress()));
+            return Optional.of(patient);
+        } else {
+            return Optional.empty();
+        }
+    }
 
     /*
     // Update Patient
@@ -95,14 +110,14 @@ public class PatientService {
 
     // Delete Patient
     public ResponseEntity<?> deletePatient(Long id){
-        Patient patient=getPatientById(id);
+        Patient patient=getPatientByIdT(id);
         patientRepository.delete(patient);
         return ResponseEntity.ok().build();
     }
 
 
     // Get  Patient By Id
-    public Patient getPatientById(Long idPatient){
+    public Patient getPatientByIdT(Long idPatient){
         return patientRepository.findById(idPatient).
                 orElseThrow(() -> new ResourceNotFoundException("id Patient " + idPatient + " not found"));
     }
