@@ -4,8 +4,11 @@ import com.test.Inoteqia.DTO.RoleName;
 import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Patient;
 import com.test.Inoteqia.Entity.Role;
+import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Exception.ResourceNotFoundException;
 import com.test.Inoteqia.Reposotories.PatientRepository;
+import com.test.Inoteqia.Reposotories.RoleRepository;
+import com.test.Inoteqia.Reposotories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -15,23 +18,24 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
 
 @Service
 public class PatientService {
 
     @Autowired
+    UtilisateurRepository utilisateurRepository;
+
+    @Autowired
     PatientRepository patientRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    RoleRepository roleRepository;
 
-    @Value("${secret.key")
+    @Value("${secret.key}")
     private String secretKey;
 
 
@@ -57,25 +61,43 @@ public class PatientService {
         byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
         return new String(decryptedData);
     }
-    public ResponseEntity<Patient> registerPatient(Patient p1) throws Exception {
+    public ResponseEntity<Utilisateur> registerPatient(Utilisateur p1, String roleName) throws Exception {
 
-        Patient patient = new Patient(encryptSensitiveInformation(p1.getName()), encryptSensitiveInformation(p1.getUsername()), encryptSensitiveInformation(p1.getEmail()), passwordEncoder.encode(p1.getPassword()), false,encryptSensitiveInformation( p1.getAddress()), false);
-
-        Patient patient1 = patientRepository.save(patient);
-        return new ResponseEntity<Patient>(patient1, HttpStatus.OK);
+        Utilisateur  u1 = new Patient(encryptSensitiveInformation(p1.getName()), encryptSensitiveInformation(p1.getUsername()), encryptSensitiveInformation(p1.getEmail()), passwordEncoder.encode(p1.getPassword()), false,encryptSensitiveInformation( p1.getAddress()), false);
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim()))
+                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));
+        roles.add(userRole);
+        u1.setRoles(roles);
+        u1.setValid(true);
+        Utilisateur utilisateur = utilisateurRepository.save(u1);
+        return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
     }
 
-    public List<Patient> getAllPatients() throws Exception {
-        List<Patient> patients = patientRepository.findAll();
-        for (Patient patient : patients) {
+    public List<Utilisateur> getUserByRoles(RoleName roleName){
+        Role role= roleRepository.findByName(roleName).get();
+        return utilisateurRepository.findByRolesContains(role);
+    }
+    public List<Utilisateur> getAllPatients() throws Exception {
+
+        List<Utilisateur> utilisateurs = getUserByRoles(RoleName.valueOf("ROLE_PATIENT"));
+        List<Utilisateur> decryptedPatients = new ArrayList<>();
+        for (Utilisateur utilisateur : utilisateurs) {
             // Décryptez les données sensibles pour chaque patient
-            patient.setName(decryptSensitiveInformation(patient.getName()));
-            patient.setUsername(decryptSensitiveInformation(patient.getUsername()));
-            patient.setEmail(decryptSensitiveInformation(patient.getEmail()));
-            patient.setAddress(decryptSensitiveInformation(patient.getAddress()));
+
+                utilisateur.setName(decryptSensitiveInformation(utilisateur.getName()));
+                utilisateur.setUsername(decryptSensitiveInformation(utilisateur.getUsername()));
+                utilisateur.setEmail(decryptSensitiveInformation(utilisateur.getEmail()));
+                utilisateur.setAddress(decryptSensitiveInformation(utilisateur.getAddress()));
+                decryptedPatients.add(utilisateur);
+
         }
-        return patients;
+
+        return decryptedPatients;
     }
+
+/*
+
 
     // Méthode pour obtenir un patient par son ID
     public Optional<Patient> getPatientById(Long patientId) throws Exception {

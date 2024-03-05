@@ -76,7 +76,7 @@ public class MedicenService {
         }
         Medecin medecin = new Medecin(m1.getName(), m1.getUsername(), m1.getEmail(), passwordEncoder.encode(m1.getPassword()), false, m1.getAddress(), false);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.ROLE_Employee)
+        Role userRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         medecin.setRoles(roles);

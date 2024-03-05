@@ -152,7 +152,7 @@ UserServiceIMP implements UserServiceInterface {
         }
         Utilisateur user = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.ROLE_Entreprise)
+        Role userRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));
         roles.add(userRole);
         user.setRoles(roles);

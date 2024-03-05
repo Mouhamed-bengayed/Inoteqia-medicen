@@ -21,9 +21,6 @@ public class Utilisateur {
     private boolean valid;
     private String token;
 
-
-
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinTable(name = "user_roles",
