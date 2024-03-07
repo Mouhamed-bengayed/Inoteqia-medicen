@@ -28,18 +28,7 @@ public class PatientController {
     public List<Utilisateur> ListPatient() throws Exception {
         return patientService.getAllPatients();
     }
-/*
-    @PutMapping("/validate-user/{idPatient}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void validInscription(@PathVariable("idPatient") Long idPatient) {
-        patientService.(idUser);
-    }
-*/
-    @PutMapping("/bloque-user/{idUser}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public void bloqueUser(@PathVariable("idUser") Long idUser) {
-        userServiceIMP.bloqueUser(idUser);
-    }
+
     @DeleteMapping("/delete-user/{idUser}")
     public void deleteAccount(@PathVariable("idUser") Long idUser) {
         userServiceIMP.deleteUser(idUser);

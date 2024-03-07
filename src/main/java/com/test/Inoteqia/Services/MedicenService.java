@@ -3,16 +3,19 @@ package com.test.Inoteqia.Services;
 import com.test.Inoteqia.DTO.RoleName;
 import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Role;
+import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Exception.ResourceNotFoundException;
 import com.test.Inoteqia.Reposotories.MedecinRepository;
 import com.test.Inoteqia.Reposotories.RoleRepository;
+import com.test.Inoteqia.Reposotories.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
-
+@Service
 public class MedicenService {
 
     @Autowired
@@ -20,13 +23,17 @@ public class MedicenService {
     @Autowired
     MedecinRepository medecinRepository;
     @Autowired
+    UtilisateurRepository utilisateurRepository;
+    @Autowired
     RoleRepository roleRepository;
     @Autowired
     PasswordEncoder passwordEncoder;
+@Autowired
+CryptDecrypt cryptDecrypt;
 
 
-
-    // fiind  All Medecin
+    // find  All Medecin
+    /*
     public List<Medecin> getAllMedecin() {
         List<Medecin> medecins=medecinRepository.findAll();
         List<Medecin> medecins1=new ArrayList<>();
@@ -37,6 +44,26 @@ public class MedicenService {
             }
         }
         return medecins1;
+    }
+*/
+    public List<Utilisateur> getUserByRoles(RoleName roleName){
+        Role role= roleRepository.findByName(roleName).get();
+        return utilisateurRepository.findByRolesContains(role);
+    }
+
+    public List<Utilisateur> getAllMedecins() throws Exception {
+
+        List<Utilisateur> utilisateurs = getUserByRoles(RoleName.valueOf("ROLE_MEDECIN"));
+        List<Utilisateur> decryptedMedecins = new ArrayList<>();
+        for (Utilisateur utilisateur : utilisateurs) {
+            // Décryptez les données sensibles pour chaque medecin
+            utilisateur.setName(cryptDecrypt.decryptSensitiveInformation(utilisateur.getName()));
+            utilisateur.setUsername(cryptDecrypt.decryptSensitiveInformation(utilisateur.getUsername()));
+            utilisateur.setEmail(cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail()));
+            utilisateur.setAddress(cryptDecrypt.decryptSensitiveInformation(utilisateur.getAddress()));
+            decryptedMedecins.add(utilisateur);
+        }
+        return decryptedMedecins;
     }
 
     // fiind  Medecin By Id
@@ -52,44 +79,25 @@ public class MedicenService {
         return ResponseEntity.ok().build();
     }
 
-    public void validInscription(Long id) {
-        Optional<Medecin> medecin = medecinRepository.findById(id);
-        Medecin medecin1 = medecin.get();
-        String Newligne = System.getProperty("line.separator");
-        String url = "http://localhost:4200/auth/verification/" +medecin1.getToken();
-        String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
-                "Voici votre code de verfication  TN1122" ;
-        if (medecin.isPresent()) {
 
-            medecin1.setValid(true);
-            this.medecinRepository.save(medecin1);
-            try {
-                mailSending.send(medecin1.getEmail(), "Welcome Pa", body);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
+    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur m1, String roleName) throws Exception {
+        if (UtilisateurRepository.existsByEmail(m1.getEmail())) {
+            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
         }
-    }
-    public ResponseEntity<Medecin> registerMedecin(Medecin m1) {
-        if (medecinRepository.existsByEmail(m1.getEmail())) {
-            return new ResponseEntity<Medecin>(HttpStatus.BAD_REQUEST);
-        }
-        Medecin medecin = new Medecin(m1.getName(), m1.getUsername(), m1.getEmail(), passwordEncoder.encode(m1.getPassword()), false, m1.getAddress(), false);
+        Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(m1.getName()), cryptDecrypt.encryptSensitiveInformation(m1.getUsername()), cryptDecrypt.encryptSensitiveInformation(m1.getEmail()), passwordEncoder.encode(m1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(m1.getAddress()), false);
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
+        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim()))
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
-        medecin.setRoles(roles);
-        medecin.setValid(true);
-        Medecin suser = medecinRepository.save(medecin);
+        utilisateur.setRoles(roles);
+        utilisateur.setValid(false);
+        Utilisateur suser = utilisateurRepository.save(utilisateur);
         if (suser != null) {
             String Newligne = System.getProperty("line.separator");
-            String url = "http://localhost:4200/#/verification" ;
-            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
-                    "Voici votre code de verfication  TN1122" ;
+            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  merci pour votre inscription vous attendre l'activation de votre cante apartier de admin" ;
             try {
-                mailSending.send(medecin.getEmail(), "Welcome", body);
-                return new ResponseEntity<Medecin>(medecin, HttpStatus.OK);
+                mailSending.send(utilisateur.getEmail(), "Welcome", body);
+                return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);

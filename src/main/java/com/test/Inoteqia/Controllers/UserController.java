@@ -61,37 +61,9 @@ UtilisateurRepository utilisateurRepository;
         roleRepository.save(role);
 
     }
-    /*
-   @PutMapping("/deleteRole/{roleName}")
-@PreAuthorize("hasRole('ROLE_ADMIN')")
-public void deleteRole(@PathVariable("roleName") RoleName roleName) {
-    Role role = roleRepository.findByName(roleName)
-            .orElseThrow(() -> new RuntimeException("Role not found"));
 
-    // Remove the role from all users who are currently assigned that role
-    List<Utilisateur> usersWithRole = utilisateurRepository.findByRolesContaining(role);
-    for (Utilisateur user : usersWithRole) {
-        user.getRoles().remove(role);
-        utilisateurRepository.save(user);
-    }
 
-    // Delete the role
-    roleRepository.delete(role);
-}
 
-    }*/
 
-    /*
-    @GetMapping("/list-Utilisateur/ASC")
-    public List<Utilisateur> getUsersOrderBySum_totalAsc() {
-        return userService.getUsersOrderBySum_totalAsc();
-    }
-
-    @GetMapping("/sorted-by-role/{role}")
-    public List<Utilisateur> getUsersSortedByRole(@PathVariable("role") String role) {
-       RoleName role1= RoleName.valueOf(role);
-        return userService.getAllUserByRoleOrderSum_total(role1);
-    }
-    */
 
 }

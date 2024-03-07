@@ -58,11 +58,13 @@ public class AuthRestAPIs {
 
     }
 
-
+/*
         @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
         public ResponseEntity<Utilisateur> registerMedecin(@Validated @RequestBody Utilisateur user1){
           return userServiceIMP.registerEntreprise(user1);
     }
+
+ */
     @RequestMapping(value = "/signupadmin", method = RequestMethod.POST)
     public ResponseEntity<Utilisateur> registerAdmin(@Valid @RequestBody Utilisateur user)  {
         return userServiceIMP.registerAdmin(user);

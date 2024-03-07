@@ -21,8 +21,7 @@ import javax.validation.Valid;
 import java.util.*;
 
 @Service
-public class
-UserServiceIMP implements UserServiceInterface {
+public class UserServiceIMP implements UserServiceInterface {
 
     @Autowired
     UtilisateurRepository utilisateurRepository;
@@ -76,14 +75,7 @@ UserServiceIMP implements UserServiceInterface {
         }
     }
 
-/*
-    public List<Utilisateur> getUsersOrderBySum_totalAsc(){
-        return utilisateurRepository.findUsersOrderByBilanSum_totalAsc();
-    }
-    public List<Utilisateur> getAllUserByRoleOrderSum_total(RoleName role) {
-        return utilisateurRepository.findAllUserByRoleOrderSum_total(role);
-    }
-*/
+
 
     public void validInscription(Long id) {
         Optional<Utilisateur> user = utilisateurRepository.findById(id);
@@ -103,85 +95,11 @@ UserServiceIMP implements UserServiceInterface {
             }
         }
     }
-
-    public ResponseEntity<Utilisateur> registerUser(Utilisateur user1, String roleName) {
-        if (utilisateurRepository.existsByUsername(user1.getUsername())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
-        }
-        if (utilisateurRepository.existsByEmail(user1.getEmail())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
-        }
-        Utilisateur user = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim()))
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));
-        roles.add(userRole);
-        user.setRoles(roles);
-        user.setValid(true);
-        Utilisateur suser = utilisateurRepository.save(user);
-        if (suser != null) {
-            //String Newligne = System.getProperty("line.separator");
-            String url = "http://localhost:4200/#/verification" ;
-            String verificationCode = "TN1122"; // Replace with your actual verification code
-            String newLine = "<br/>"; // HTML line break
-            String htmlMessage = "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
-                    + "Soyez le bienvenue dans notre plateforme" + newLine
-                    + "Veuillez utiliser ce lien pour vous authentifier : " + newLine
-                    + "<a href='" + url + "'>" + url + "</a>" + newLine
-                    + "<strong>Verification Code:</strong> " + verificationCode + newLine
-                    + "</div>";
-            try {
-                mailSending.send(user.getEmail(), "Welcome"+ user.getName() , htmlMessage);
-                return new ResponseEntity<Utilisateur>(user, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-    }
-
-    public ResponseEntity<Utilisateur> registerEntreprise(Utilisateur user1) {
-        if (utilisateurRepository.existsByUsername(user1.getUsername())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
-        }
-        if (utilisateurRepository.existsByEmail(user1.getEmail())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
-        }
-        Utilisateur user = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()), false, user1.getAddress(), false);
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));
-        roles.add(userRole);
-        user.setRoles(roles);
-        user.setValid(true);
-        Utilisateur suser = utilisateurRepository.save(user);
-        if (suser != null) {
-            String Newligne = System.getProperty("line.separator");
-            String url = "http://localhost:4200/auth/verification/" + suser.getToken();
-            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  veuillez utuliser ce lien là pour s'authentifier :" + Newligne + url + Newligne + "verification" +
-                    "Voici votre code de verfication  TN1122" ;
-            try {
-                mailSending.send(user.getEmail(), "Welcome", body);
-                return new ResponseEntity<Utilisateur>(user, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-
-    }
-
     public ResponseEntity<Utilisateur> registerAdmin(@Valid @RequestBody Utilisateur user) {
         if (utilisateurRepository.existsByUsername(user.getUsername())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
         }
-        if (utilisateurRepository.existsByEmail(user.getEmail())) {
+        if (UtilisateurRepository.existsByEmail(user.getEmail())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
         }
         String token = UUID.randomUUID().toString().replace("-", "");

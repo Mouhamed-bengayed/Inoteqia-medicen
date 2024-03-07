@@ -34,36 +34,17 @@ public class PatientService {
     PasswordEncoder passwordEncoder;
     @Autowired
     RoleRepository roleRepository;
-
-    @Value("${secret.key}")
-    private String secretKey;
-
+    @Autowired
+    CryptDecrypt cryptDecrypt;
 
 
-    public List<Patient> getAllPatient(){
-        return  patientRepository.findAll();
+    public List<Patient> getAllPatient() {
+        return patientRepository.findAll();
     }
 
-    // Méthode pour crypter les informations sensibles de l'utilisateur
-    public String encryptSensitiveInformation(String data) throws Exception {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
-        byte[] encryptedData = cipher.doFinal(data.getBytes());
-        return Base64.getEncoder().encodeToString(encryptedData);
-    }
-
-    // Méthode pour décrypter les informations sensibles de l'utilisateur
-    public String decryptSensitiveInformation(String encryptedData) throws Exception {
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "AES");
-        Cipher cipher = Cipher.getInstance("AES");
-        cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
-        byte[] decryptedData = cipher.doFinal(Base64.getDecoder().decode(encryptedData));
-        return new String(decryptedData);
-    }
     public ResponseEntity<Utilisateur> registerPatient(Utilisateur p1, String roleName) throws Exception {
 
-        Utilisateur  u1 = new Patient(encryptSensitiveInformation(p1.getName()), encryptSensitiveInformation(p1.getUsername()), encryptSensitiveInformation(p1.getEmail()), passwordEncoder.encode(p1.getPassword()), false,encryptSensitiveInformation( p1.getAddress()), false);
+        Utilisateur u1 = new Patient(cryptDecrypt.encryptSensitiveInformation(p1.getName()), cryptDecrypt.encryptSensitiveInformation(p1.getUsername()), cryptDecrypt.encryptSensitiveInformation(p1.getEmail()), passwordEncoder.encode(p1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(p1.getAddress()), false);
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim()))
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));
@@ -74,29 +55,45 @@ public class PatientService {
         return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
     }
 
-    public List<Utilisateur> getUserByRoles(RoleName roleName){
-        Role role= roleRepository.findByName(roleName).get();
+    public List<Utilisateur> getUserByRoles(RoleName roleName) {
+        Role role = roleRepository.findByName(roleName).get();
         return utilisateurRepository.findByRolesContains(role);
     }
+
     public List<Utilisateur> getAllPatients() throws Exception {
 
         List<Utilisateur> utilisateurs = getUserByRoles(RoleName.valueOf("ROLE_PATIENT"));
         List<Utilisateur> decryptedPatients = new ArrayList<>();
         for (Utilisateur utilisateur : utilisateurs) {
             // Décryptez les données sensibles pour chaque patient
-
-                utilisateur.setName(decryptSensitiveInformation(utilisateur.getName()));
-                utilisateur.setUsername(decryptSensitiveInformation(utilisateur.getUsername()));
-                utilisateur.setEmail(decryptSensitiveInformation(utilisateur.getEmail()));
-                utilisateur.setAddress(decryptSensitiveInformation(utilisateur.getAddress()));
-                decryptedPatients.add(utilisateur);
-
+            utilisateur.setName(cryptDecrypt.decryptSensitiveInformation(utilisateur.getName()));
+            utilisateur.setUsername(cryptDecrypt.decryptSensitiveInformation(utilisateur.getUsername()));
+            utilisateur.setEmail(cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail()));
+            utilisateur.setAddress(cryptDecrypt.decryptSensitiveInformation(utilisateur.getAddress()));
+            decryptedPatients.add(utilisateur);
         }
-
         return decryptedPatients;
     }
 
+
+
+
+
 /*
+ // Update Patient
+    public Patient updatePatient(Long id, Patient PatientRequest){
+        Patient Patient=patientRepository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("id Patient " + id + " not found"));
+        Patient.setEmail(patientRepository.getEmail());
+        Patient.setPrenom(patientRepository.getPrenom());
+        Patient.setNom(patientRepository.getNom());
+        Patient.setAdresse(patientRepository.getAdresse());
+        Patient.setConact(patientRepository.getConact());
+        Patient.setSpecialite(patientRepository.getSpecialite());
+        Patient updateMedecin=patientRepository.save(medecin);
+        return updatePatient;
+    }
+
 
 
     // Méthode pour obtenir un patient par son ID
@@ -115,37 +112,18 @@ public class PatientService {
         }
     }
 
-    /*
-    // Update Patient
-    public Patient updatePatient(Long id, Patient PatientRequest){
-       Patient Patient=patientRepository.findById(id).
-                orElseThrow(() -> new ResourceNotFoundException("id Patient " + id + " not found"));
-        Patient.setEmail(patientRepository.getEmail());
-        Patient.setPrenom(patientRepository.getPrenom());
-        Patient.setNom(patientRepository.getNom());
-        Patient.setAdresse(patientRepository.getAdresse());
-        Patient.setConact(patientRepository.getConact());
-        Patient.setSpecialite(patientRepository.getSpecialite());
-        Patient updateMedecin=patientRepository.save(medecin);
-        return updatePatient;
-    }*/
 
-    // Delete Patient
-    public ResponseEntity<?> deletePatient(Long id){
-        Patient patient=getPatientByIdT(id);
-        patientRepository.delete(patient);
-        return ResponseEntity.ok().build();
-    }
-
-
-    // Get  Patient By Id
-    public Patient getPatientByIdT(Long idPatient){
-        return patientRepository.findById(idPatient).
-                orElseThrow(() -> new ResourceNotFoundException("id Patient " + idPatient + " not found"));
-    }
-
-
-
-
-
+  */
 }
+
+
+
+
+
+
+
+
+
+
+
+

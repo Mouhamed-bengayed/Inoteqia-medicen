@@ -13,10 +13,7 @@ public class AdministrateurService {
     @Autowired
     AdministrateurRepository administrateurRepository;
 
-    public Administrateur addAdministrateur(Administrateur a1){
-       Administrateur savedAdministrateur = administrateurRepository.save(a1);
-        return savedAdministrateur;
-    }
+
 
     public Administrateur deleteAdministrateur(Long id){
         Optional<Administrateur> administrateur = administrateurRepository.findById(id);
