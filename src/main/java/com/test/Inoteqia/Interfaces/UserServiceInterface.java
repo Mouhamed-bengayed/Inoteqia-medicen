@@ -22,7 +22,7 @@ public interface UserServiceInterface {
     public Utilisateur deleteUser(Long id);
 
 
-    public void bloqueUser(Long id);
+    public void bloqueUser(Long id) throws Exception;
 
 
     public void validInscription(Long id) ;

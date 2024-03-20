@@ -15,11 +15,12 @@ public class Utilisateur {
     private String username;
     private String email;
     private String password;
-    private String address;
-    private int number;
+    private String number;
+    private String addresse;
     private Boolean blocked;
     private boolean valid;
     private String token;
+
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -36,8 +37,10 @@ public class Utilisateur {
         this.email = email;
         this.password = password;
         this.blocked = blocked;
-        this.address = address;
+        this.addresse = address;
         this.valid = valid;
+
+
 
     }
 

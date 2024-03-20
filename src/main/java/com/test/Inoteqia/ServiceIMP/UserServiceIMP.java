@@ -7,6 +7,7 @@ import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Interfaces.UserServiceInterface;
 import com.test.Inoteqia.Reposotories.RoleRepository;
 import com.test.Inoteqia.Reposotories.UtilisateurRepository;
+import com.test.Inoteqia.Services.CryptDecrypt;
 import com.test.Inoteqia.Services.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,8 @@ public class UserServiceIMP implements UserServiceInterface {
     PasswordEncoder passwordEncoder;
     @Autowired
     RoleRepository roleRepository;
+    @Autowired
+    CryptDecrypt cryptDecrypt;
 
 
     public List<Utilisateur> getAllUser() {
@@ -57,18 +60,19 @@ public class UserServiceIMP implements UserServiceInterface {
     }
 
 
-    public void bloqueUser(Long id) {
+    public void bloqueUser(Long id) throws Exception {
         Optional<Utilisateur> user = utilisateurRepository.findById(id);
         Utilisateur user1 = user.get();
         String Newligne = System.getProperty("line.separator");
-        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
-        String body = "compte bloque\n  use this link to verify your account is :" + Newligne + url;
+        String body = "compte bloque\n  use this link to verify your account is :" + Newligne ;
+        String ms=cryptDecrypt.decryptSensitiveInformation(user1.getEmail());
+
         if (user.isPresent()) {
 
             user1.setValid(false);
             this.utilisateurRepository.save(user1);
             try {
-                mailSending.send(user1.getEmail(), "bloque ", body);
+                mailSending.send(ms, "bloque ", body);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -103,7 +107,7 @@ public class UserServiceIMP implements UserServiceInterface {
             return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
         }
         String token = UUID.randomUUID().toString().replace("-", "");
-        Utilisateur user1 = new Utilisateur(user.getName(), user.getUsername(), user.getEmail(), passwordEncoder.encode(user.getPassword()), false, user.getAddress(), false);
+        Utilisateur user1 = new Utilisateur(user.getName(), user.getUsername(), user.getEmail(), passwordEncoder.encode(user.getPassword()), false, user.getAddresse(), false);
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findByName(RoleName.ROLE_ADMIN)
                 .orElseThrow(() -> new RuntimeException("Fail! -> Cause: Utilisateur Role not find."));

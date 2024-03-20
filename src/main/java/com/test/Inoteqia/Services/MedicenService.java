@@ -5,6 +5,7 @@ import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Exception.ResourceNotFoundException;
+import com.test.Inoteqia.Interfaces.OTPInterface;
 import com.test.Inoteqia.Reposotories.MedecinRepository;
 import com.test.Inoteqia.Reposotories.RoleRepository;
 import com.test.Inoteqia.Reposotories.UtilisateurRepository;
@@ -30,6 +31,8 @@ public class MedicenService {
     PasswordEncoder passwordEncoder;
 @Autowired
 CryptDecrypt cryptDecrypt;
+@Autowired
+    OTPInterface otpInterface;
 
 
     // find  All Medecin
@@ -52,7 +55,6 @@ CryptDecrypt cryptDecrypt;
     }
 
     public List<Utilisateur> getAllMedecins() throws Exception {
-
         List<Utilisateur> utilisateurs = getUserByRoles(RoleName.valueOf("ROLE_MEDECIN"));
         List<Utilisateur> decryptedMedecins = new ArrayList<>();
         for (Utilisateur utilisateur : utilisateurs) {
@@ -60,15 +62,14 @@ CryptDecrypt cryptDecrypt;
             utilisateur.setName(cryptDecrypt.decryptSensitiveInformation(utilisateur.getName()));
             utilisateur.setUsername(cryptDecrypt.decryptSensitiveInformation(utilisateur.getUsername()));
             utilisateur.setEmail(cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail()));
-            utilisateur.setAddress(cryptDecrypt.decryptSensitiveInformation(utilisateur.getAddress()));
+            utilisateur.setAddresse(cryptDecrypt.decryptSensitiveInformation(utilisateur.getAddresse()));
             decryptedMedecins.add(utilisateur);
         }
         return decryptedMedecins;
     }
 
     // fiind  Medecin By Id
-    public Medecin getMedecinById(Long idMedecin)
-    {
+    public Medecin getMedecinById(Long idMedecin) {
         return medecinRepository.findById(idMedecin).
                 orElseThrow(() -> new ResourceNotFoundException("id Medecin " + idMedecin + " not found"));
     }
@@ -79,8 +80,8 @@ CryptDecrypt cryptDecrypt;
         return ResponseEntity.ok().build();
     }
 
-
-    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur m1, String roleName) throws Exception {
+/*
+    public ResponseEntity<Utilisateur> registerMe(Utilisateur m1, String roleName) throws Exception {
         if (UtilisateurRepository.existsByEmail(m1.getEmail())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
         }
@@ -107,6 +108,49 @@ CryptDecrypt cryptDecrypt;
         }
 
     }
+*/
+
+    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1, String roleName) throws Exception {
+        if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
+            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
+        }
+        Utilisateur utilisateur = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), user1.getPassword(), false, user1.getAddresse(), false);
+     /*   Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(user1.getName()), cryptDecrypt.encryptSensitiveInformation(user1.getUsername()), cryptDecrypt.encryptSensitiveInformation(user1.getEmail()), passwordEncoder.encode(user1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(user1.getAddresse()), false);*/
+
+        Set<Role> roles = new HashSet<>();
+        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim())).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        roles.add(userRole);
+        utilisateur.setRoles(roles);
+        utilisateur.setValid(false);
+        Utilisateur suser = utilisateurRepository.save(utilisateur);
+        if (suser != null) {
+            //String Newligne = System.getProperty("line.separator");
+            String url = "http://localhost:4200/#/verification" ;
+            String verificationCode = otpInterface.GenerateOTp().getIdentification(); // Replace with your actual verification code
+            String newLine = "<br/>"; // HTML line break
+            String htmlMessage = "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
+                    + "Soyez le bienvenue dans notre plateforme" + newLine
+                    + "Veuillez utiliser ce lien pour vous authentifier : " + newLine
+                    + "<a href='" + url + "'>" + url + "</a>" + newLine
+                    + "<strong>Verification Code:</strong> " + verificationCode + newLine
+                    + "</div>";
+            /*String ms=cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail());*/
+            String ms=utilisateur.getEmail();
+
+
+            try {
+                mailSending.send(ms, "Welcome"+ utilisateur.getName() , htmlMessage);
+                return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
 
 
 }

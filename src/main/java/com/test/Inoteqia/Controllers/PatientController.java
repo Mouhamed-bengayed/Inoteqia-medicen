@@ -1,6 +1,5 @@
 package com.test.Inoteqia.Controllers;
 
-import com.test.Inoteqia.DTO.RoleName;
 import com.test.Inoteqia.Entity.Patient;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.ServiceIMP.UserServiceIMP;
@@ -34,15 +33,11 @@ public class PatientController {
         userServiceIMP.deleteUser(idUser);
     }
 
-    @GetMapping("/list-RolesName/{RolesName}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<Utilisateur> ListUserByRoles(@PathVariable("RolesName") RoleName roleName) {
-        return userServiceIMP.getUserByRoles(roleName);
-    }
 
-    @RequestMapping(value = "/signup/patient/{roleName}", method = RequestMethod.POST)
-    public ResponseEntity<Utilisateur> registerPatient(@Validated @RequestBody Utilisateur p1, @PathVariable ("roleName")String roleName) throws Exception {
-        return patientService.registerPatient(p1,roleName);
+
+    @RequestMapping(value = "/register/patient/{idMedecin}", method = RequestMethod.POST)
+    public ResponseEntity<Patient> registerPatient(@Validated @RequestBody Patient p1, @PathVariable("idMedecin") Long idMedecin) throws Exception {
+        return patientService.registerPatient(p1,idMedecin);
     }
 
 

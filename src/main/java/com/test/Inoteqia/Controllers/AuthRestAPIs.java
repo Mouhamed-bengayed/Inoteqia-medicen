@@ -18,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -49,24 +48,17 @@ public class AuthRestAPIs {
 
     @PostMapping("/signIn")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody SignIn login) {
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
+        new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtProvider.generateJwtToken(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
-
     }
 
-/*
-        @RequestMapping(value = "/signup/entreprise", method = RequestMethod.POST)
-        public ResponseEntity<Utilisateur> registerMedecin(@Validated @RequestBody Utilisateur user1){
-          return userServiceIMP.registerEntreprise(user1);
-    }
-
- */
     @RequestMapping(value = "/signupadmin", method = RequestMethod.POST)
-    public ResponseEntity<Utilisateur> registerAdmin(@Valid @RequestBody Utilisateur user)  {
+    public ResponseEntity<Utilisateur> registerAdmin(@Valid @RequestBody Utilisateur user){
         return userServiceIMP.registerAdmin(user);
     }
 }

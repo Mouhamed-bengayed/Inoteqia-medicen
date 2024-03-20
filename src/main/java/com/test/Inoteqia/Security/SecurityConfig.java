@@ -35,8 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/api/medecin/signup/medecin",
             "/api/medecin/validate-medecin/{idMedecin}",
             "/api/patient/list-patient",
+            "/api/patient/register/patient/{idMedecin}",
+
             "/api/medecin/list-medecin",
-            "/api/user/getUser/{idUser}",
+            "/api/user/ist-userByRolesName/{RolesName}",
+            "/api/user/validate-user/{idUser}",
+            "/api/user/bloque-user/{idUser}",
+
+
             "/v2/api-docs",
             "/configuration/ui",
             "/-resources/**",
