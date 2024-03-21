@@ -1,4 +1,5 @@
 package com.test.Inoteqia.Controllers;
+import com.test.Inoteqia.DTO.ResetPass;
 import com.test.Inoteqia.DTO.RoleName;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
@@ -6,6 +7,7 @@ import com.test.Inoteqia.Reposotories.RoleRepository;
 import com.test.Inoteqia.Reposotories.UtilisateurRepository;
 import com.test.Inoteqia.ServiceIMP.UserServiceIMP;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -57,6 +59,18 @@ UtilisateurRepository utilisateurRepository;
         Role role=new Role();
         role.setName(roleName);
         roleRepository.save(role);
+    }
+    @PutMapping("forgetpass/{username}")
+    public ResponseEntity<?> forgetPassword(@PathVariable("username") String username, @RequestBody ResetPass resetPass) {
+        return userServiceIMP.updatePassword(username,resetPass);
+    }
+    @PostMapping("forgetpassword/{email}")
+    public ResponseEntity<?> userForgetPassword(@PathVariable("email") String email) {
+        return userServiceIMP.userforgetpassword(email);
+    }
+    @PutMapping("forgetpassbyemail/{email}")
+    public ResponseEntity<?> forgetPasswordbyemail(@PathVariable("email") String email, @RequestBody ResetPass resetPass) {
+        return userServiceIMP.updatePasswordBymail(email,resetPass);
     }
 
 

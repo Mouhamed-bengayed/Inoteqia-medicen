@@ -11,4 +11,6 @@ import java.util.Optional;
 
 public interface OTPRepository extends JpaRepository<OTP, Long> {
     Optional<OTP> findByIdentificationAndExpiredDateAfter(String identification, Date now);
+
+    OTP findByIdentification(String identification);
 }

@@ -15,9 +15,8 @@ public class Patient extends Utilisateur{
     private String Date_de_consultation;
     private String dossier_médical;
     private String n_Dossier_médical;
-    private String dexe;
+    private String sexe;
     private String année_de_naissance;
-    private int Télephone;
     private String origine;
     private String profession;
     private String adresse_par;
@@ -45,7 +44,7 @@ public class Patient extends Utilisateur{
     }
 
 
-    public Patient() {
+    public Patient(String s, String encryptSensitiveInformation, String sensitiveInformation, String encode, String information, String s1, String encryptSensitiveInformation1, String sensitiveInformation1, String information1, String s2, String encryptSensitiveInformation2, String sensitiveInformation2, String information2, String s3, String encryptSensitiveInformation3, String sensitiveInformation3, String information3, String s4) {
 
     }
 

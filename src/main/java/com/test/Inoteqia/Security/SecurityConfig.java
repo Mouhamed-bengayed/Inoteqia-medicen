@@ -12,7 +12,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
+
+import javax.servlet.Filter;
 
 
 @EnableWebSecurity
@@ -58,17 +61,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-   http
-           .cors().configurationSource(corsConfigurationSource).and()
-           .csrf().disable()
-           .sessionManagement()
-           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-           .and()
-           .authorizeRequests()
-           .antMatchers("/**").permitAll()
-           .anyRequest().authenticated()
-           .and()
-           .httpBasic();
+        http
+                .cors().configurationSource(corsConfigurationSource).and()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests()
+                .antMatchers("/refreshToken").permitAll() // Permit access to refreshToken endpoint
+                .antMatchers("/**").permitAll() // Require authentication for other endpoints
+                .and()
+                .httpBasic();
+
+        // Add JWT token filter before the default authentication filter
+        http.addFilterBefore((Filter) authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)

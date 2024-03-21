@@ -4,7 +4,9 @@ import com.test.Inoteqia.DTO.OTP;
 
 public interface OTPInterface {
     OTP GenerateOTp( );
-    Boolean VerifOTP(OTP otp) ;
+    Boolean VerifOTP(String otp) ;
 
     OTP ResendOTP(OTP existingOTP);
+    void  DeleteALLOTP();
+
 }

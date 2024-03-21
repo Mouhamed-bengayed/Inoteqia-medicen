@@ -114,7 +114,7 @@ CryptDecrypt cryptDecrypt;
         if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
         }
-        Utilisateur utilisateur = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), user1.getPassword(), false, user1.getAddresse(), false);
+        Utilisateur utilisateur = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()),false, user1.getAddresse(), false);
      /*   Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(user1.getName()), cryptDecrypt.encryptSensitiveInformation(user1.getUsername()), cryptDecrypt.encryptSensitiveInformation(user1.getEmail()), passwordEncoder.encode(user1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(user1.getAddresse()), false);*/
 
         Set<Role> roles = new HashSet<>();
@@ -137,10 +137,9 @@ CryptDecrypt cryptDecrypt;
             /*String ms=cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail());*/
             String ms=utilisateur.getEmail();
 
-
             try {
-                mailSending.send(ms, "Welcome"+ utilisateur.getName() , htmlMessage);
-                return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
+                mailSending.send(ms, "Welcome" + utilisateur.getName(), htmlMessage);
+                return new ResponseEntity<Utilisateur>(utilisateur ,HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);

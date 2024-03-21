@@ -24,8 +24,8 @@ public class PatientController {
 
     @GetMapping("/list-patient")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public List<Utilisateur> ListPatient() throws Exception {
-        return patientService.getAllPatients();
+    public List<Patient> ListPatient() throws Exception {
+        return patientService.getAllPatient();
     }
 
     @DeleteMapping("/delete-user/{idUser}")

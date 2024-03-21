@@ -8,20 +8,21 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
-
     @Value("${cryptoserver.app.jwtSecret}")
     private String jwtSecret;
 
     @Value("${cryptoserver.app.jwtExpiration}")
     private int jwtExpiration;
 
-    public String generateJwtToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 
@@ -32,6 +33,37 @@ public class JwtProvider {
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
+    public String generateRefreshToken() {
+        // Define refresh token expiration time (e.g., 7 days)
+        long refreshTokenExpiration = jwtExpiration * 7 * 24 * 60 * 60 * 1000; // milliseconds
+
+        // Create refresh token
+        return Jwts.builder()
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
+    }
+
+
+    // Modify JwtProvider to generate and store refresh tokens in session
+    public List<String> generateJwtTokens(Authentication authentication) {
+        // Generate access token as before
+        String accessToken = generateAccessToken(authentication);
+
+        // Generate refresh token
+        String refreshToken = generateRefreshToken();
+
+        // Create a list to hold both tokens
+        List<String> tokens = new ArrayList<>();
+        tokens.add(accessToken);
+        tokens.add(refreshToken);
+
+        // Return the list containing both tokens
+        return tokens;
+    }
+
+
 
     public boolean validateJwtToken(String authToken) {
         try {

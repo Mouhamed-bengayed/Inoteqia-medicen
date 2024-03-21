@@ -18,13 +18,12 @@ import java.util.Date;
 @Setter
 @Getter
 public class OTP {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     String identification;
     Date expiredDate;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
 
 }

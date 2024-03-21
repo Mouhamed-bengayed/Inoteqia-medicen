@@ -1,9 +1,11 @@
 package com.test.Inoteqia.ServiceIMP;
 
 
+import com.test.Inoteqia.DTO.ResetPass;
 import com.test.Inoteqia.DTO.RoleName;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
+import com.test.Inoteqia.Interfaces.OTPInterface;
 import com.test.Inoteqia.Interfaces.UserServiceInterface;
 import com.test.Inoteqia.Reposotories.RoleRepository;
 import com.test.Inoteqia.Reposotories.UtilisateurRepository;
@@ -34,6 +36,8 @@ public class UserServiceIMP implements UserServiceInterface {
     RoleRepository roleRepository;
     @Autowired
     CryptDecrypt cryptDecrypt;
+    @Autowired
+    OTPInterface otpInterface;
 
 
     public List<Utilisateur> getAllUser() {
@@ -126,6 +130,65 @@ public class UserServiceIMP implements UserServiceInterface {
             username = principal.toString();
         }
         return utilisateurRepository.findByUsername(username);
+    }
+    public ResponseEntity<?> userforgetpassword(String email) {
+        Optional<Utilisateur> user = utilisateurRepository.findByEmail(email);
+        if (user.isPresent()) {
+            // String url = "http://localhost:4200/#/verifCaptch" ;
+            String verificationCode = otpInterface.GenerateOTp().getIdentification();
+            String newLine = "<br/>"; // HTML line break
+            String htmlMessage = "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
+                    + "Une tentative de Reset du Password à été effectuer " + newLine
+                    //+ "Veuillez utiliser ce lien pour vous authentifier : " + newLine
+                    //  + "<a href='" + url + "'>" + url + "</a>" + newLine
+                    + "<strong>Verification Code:</strong> " + verificationCode + newLine
+                    + "</div>";
+            try {
+                mailSending.send(user.get().getEmail(), "Did you Forget your password ?"+ user.get().getName() , htmlMessage);
+                return new ResponseEntity<>( HttpStatus.OK);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    public  ResponseEntity<?>  updatePassword(String username, ResetPass updatePasswordDto) {
+        Optional<Utilisateur> user = utilisateurRepository.findByUsername(username);
+        if (user.isPresent()) {
+            String storedHashedPassword = user.get().getPassword();
+            if (passwordEncoder.matches(updatePasswordDto.getOldPassword(), storedHashedPassword)) {
+                user.get().setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+                utilisateurRepository.save(user.get());
+                return new ResponseEntity<>(HttpStatus.OK);
+
+            } else {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
+    }
+    public  ResponseEntity<?>  updatePasswordBymail(String email, ResetPass updatePasswordDto) {
+        Optional<Utilisateur> user = utilisateurRepository.findByEmail(email);
+        if (user.isPresent()) {
+            Boolean verif = otpInterface.VerifOTP(updatePasswordDto.getCode());
+            if (verif == false) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
+            else {
+                user.get().setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+                utilisateurRepository.save(user.get());
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        }
     }
 
 }

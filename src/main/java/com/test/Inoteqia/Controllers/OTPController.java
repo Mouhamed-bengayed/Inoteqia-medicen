@@ -6,10 +6,7 @@ import com.test.Inoteqia.Interfaces.OTPInterface;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -18,16 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class OTPController {
     @Autowired
     OTPInterface otpInterface;
-@PostMapping("/GenerateOTp")
+    @PostMapping("/GenerateOTp")
     public OTP GenerateOTp() {
         return otpInterface.GenerateOTp();
     }
-@PostMapping("/VerifOTP")
-    public Boolean VerifOTP(@RequestBody OTP otp)  {
-        return otpInterface.VerifOTP(otp);
+    @PostMapping("/VerifOTP/{identification}")
+    public Boolean VerifOTP(@PathVariable("identification") String identification)  {
+        return otpInterface.VerifOTP(identification);
     }
-@PostMapping("/ResendOTP")
+    @PostMapping("/ResendOTP")
     public OTP ResendOTP(@RequestBody OTP existingOTP) {
         return otpInterface.ResendOTP(existingOTP);
+    }
+    @DeleteMapping("/DeleteALLOTP")
+    public void DeleteALLOTP() {
+        otpInterface.DeleteALLOTP();
     }
 }
