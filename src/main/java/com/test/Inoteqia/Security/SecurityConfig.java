@@ -1,5 +1,6 @@
 package com.test.Inoteqia.Security;
 
+import com.test.Inoteqia.JWT.JwtAuthEntryPoint;
 import com.test.Inoteqia.JWT.JwtAuthTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -12,40 +13,51 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import javax.servlet.Filter;
 
-
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-   private CorsConfigurationSource corsConfigurationSource;
 
     @Bean
     public JwtAuthTokenFilter authenticationJwtTokenFilter() {
         return new JwtAuthTokenFilter();
     }
+    @Bean
+    public AuthenticationEntryPoint authenticationEntryPoint() {
+        return jwtAuthEntryPoint;
+
+
+    }
+    @Autowired
+    private JwtAuthEntryPoint jwtAuthEntryPoint;
+    @Autowired
+    private CorsConfigurationSource corsConfigurationSource;
+
+
 
     private final String[] PUBLIC_ENDPOINTS={
 
             "/api/auth/signup/employee",
             "/api/auth/signIn",
-            "/api/patient/signup/patient/{roleName}",
-            "/api/medecin/signup/medecin",
-            "/api/medecin/validate-medecin/{idMedecin}",
-            "/api/patient/list-patient",
-            "/api/patient/register/patient/{idMedecin}",
-
-            "/api/medecin/list-medecin",
-            "/api/user/ist-userByRolesName/{RolesName}",
+            "/api/works/sum_carbo_works",
+            "/api/Bilan/list-Bilan",
+            "/api/message/add-message",
+            "/api/message/list-message",
+            "/api/Solution/list-Solution",
+            "/api/Solution/add-solution",
+            "/api/works/sum_carbo_works",
             "/api/user/validate-user/{idUser}",
-            "/api/user/bloque-user/{idUser}",
-
-
+            "/api/user/list-user",
+            "/api/user/list-Userco2/ASC",
+            "/api/user/list-RolesName/{RolesName}",
+            "/api/user/validate-user/{iduser}",
+            "/api/user/delete-user/{iduser}",
+            "/api/user/getUser/{idUser}",
             "/v2/api-docs",
             "/configuration/ui",
             "/-resources/**",
@@ -56,24 +68,84 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/swagger-resources",
             "/configuration/security",
             "/v3/api-docs/**",
-            "/swagger-ui/**"
-    };
-
+            "/swagger-ui/**",
+            "/refreshToken"    };
     @Override
+
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors().configurationSource(corsConfigurationSource).and()
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                .antMatchers("/refreshToken").permitAll() // Permit access to refreshToken endpoint
-                .antMatchers("/**").permitAll() // Require authentication for other endpoints
+                .antMatchers("/api/auth/refreshToken").permitAll() // Permit access to refreshToken endpoint
+                .antMatchers("/**").permitAll()
+                // .anyRequest().authenticated() // Require authentication for any other endpoint
+
                 .and()
                 .httpBasic();
 
-        // Add JWT token filter before the default authentication filter
-        http.addFilterBefore((Filter) authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint());
     }
+
+  /* @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Arrays.asList("http://localhost:4200"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
+*/
+
+   /* @Override
+    protected void configure(HttpSecurity http) throws Exception {
+   http
+           .cors().configurationSource(corsConfigurationSource).and()
+           .csrf().disable()
+           .sessionManagement()
+           .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+           .and()
+           .authorizeRequests()
+           .antMatchers("/**").permitAll()
+           .anyRequest().authenticated()
+           .and()
+           .httpBasic();
+
+    }*/
+    /*@Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .cors().and()
+            .csrf().disable()
+            .authorizeRequests()
+                // Public endpoints accessible by anyone
+                .antMatchers(HttpMethod.POST, "/api/auth/signup/employee").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/auth/signIn").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/works/sum_carbo_works").permitAll()
+                // Endpoints accessible only to specific roles
+                .antMatchers("/api/Bilan/**").hasAnyAuthority("ROLE_USER", "ADMIN", "Entreprise", "Employee", "Manager", "HR", "CRM", "Consult", "PM")
+                .antMatchers("/api/message/**").hasAnyAuthority("ROLE_USER", "ADMIN", "Entreprise", "Employee", "Manager", "HR", "CRM", "Consult", "PM")
+                .antMatchers("/api/Solution/**").hasAnyAuthority("ROLE_USER", "ADMIN", "Entreprise", "Employee", "Manager", "HR", "CRM", "Consult", "PM")
+                .antMatchers("/api/user/**").hasAnyAuthority("ADMIN", "Entreprise", "Manager", "HR", "CRM", "Consult", "PM")
+                // Add more endpoints and roles as needed
+                .anyRequest().authenticated()
+            .and()
+            .httpBasic();
+    }*/
+
+    /*
+    @Bean
+    public HttpFirewall httpFirewall() {
+        DefaultHttpFirewall firewall = new DefaultHttpFirewall();
+        // Allowing double slashes in URLs
+        firewall.setAllowUrlEncodedSlash(true);
+        return firewall;
+    }*/
 
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     @Override

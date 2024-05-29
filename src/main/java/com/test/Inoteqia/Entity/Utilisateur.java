@@ -1,8 +1,10 @@
 package com.test.Inoteqia.Entity;
+
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,6 +23,11 @@ public class Utilisateur {
     private boolean valid;
     private String token;
 
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
+    private List<Patient> patients;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
+    private List<Consultations> consultations;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore
@@ -47,4 +54,9 @@ public class Utilisateur {
     public Utilisateur() {
 
     }
+
+
+
+
+
 }

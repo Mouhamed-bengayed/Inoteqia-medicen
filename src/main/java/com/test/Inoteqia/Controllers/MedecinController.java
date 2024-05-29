@@ -34,6 +34,11 @@ public class MedecinController {
         return medicenService.registerMedecin(p1,roleName);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public Utilisateur deleteUtilisateur(@PathVariable Long id) {
+        return medicenService.deleteUtilisateur(id);
+    }
+
 
 
 

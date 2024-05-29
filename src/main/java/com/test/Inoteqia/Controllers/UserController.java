@@ -73,7 +73,11 @@ UtilisateurRepository utilisateurRepository;
         return userServiceIMP.updatePasswordBymail(email,resetPass);
     }
 
-
+    @GetMapping("/get-userByUsername/{username}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public Utilisateur GetUserByusername(@PathVariable("username")  String username) {
+        return utilisateurRepository.findUtilisateurByUsername(username);
+    }
 
 
 

@@ -1,7 +1,6 @@
 package com.test.Inoteqia.Controllers;
 
 import com.test.Inoteqia.Entity.Patient;
-import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.ServiceIMP.UserServiceIMP;
 import com.test.Inoteqia.Services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +22,16 @@ public class PatientController {
     UserServiceIMP userServiceIMP;
 
     @GetMapping("/list-patient")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Patient> ListPatient() throws Exception {
         return patientService.getAllPatient();
     }
-
-    @DeleteMapping("/delete-user/{idUser}")
-    public void deleteAccount(@PathVariable("idUser") Long idUser) {
-        userServiceIMP.deleteUser(idUser);
+    @DeleteMapping("/delete-patient/{idUser}")
+    public void deletePatient(@PathVariable("idUser") Long idUser) {
+        patientService.deletePatient(idUser);
     }
 
-
-
-    @RequestMapping(value = "/register/patient/{idMedecin}", method = RequestMethod.POST)
-    public ResponseEntity<Patient> registerPatient(@Validated @RequestBody Patient p1, @PathVariable("idMedecin") Long idMedecin) throws Exception {
-        return patientService.registerPatient(p1,idMedecin);
+    @PostMapping(value = "/register-patient/")
+    public ResponseEntity<Patient> registerPatient(@Validated @RequestBody Patient p1) throws Exception {
+        return patientService.registerPatient(p1);
     }
-
-
 }

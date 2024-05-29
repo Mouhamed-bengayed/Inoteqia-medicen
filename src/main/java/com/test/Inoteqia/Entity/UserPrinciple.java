@@ -25,9 +25,7 @@ public class UserPrinciple implements UserDetails {
     @JsonIgnore
     private String password;
     private Boolean isVerified;
-
     private Collection<? extends GrantedAuthority> authorities;
-
     public UserPrinciple(Long id, String name, String username, String email, String password,
                          Collection<? extends GrantedAuthority> authorities, Boolean isVerified) {
         this.id = id;

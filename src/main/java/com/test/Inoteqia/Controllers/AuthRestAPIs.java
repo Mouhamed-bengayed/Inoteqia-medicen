@@ -12,8 +12,8 @@ import com.test.Inoteqia.ServiceIMP.UserServiceIMP;
 import com.test.Inoteqia.Services.MailSenderService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,10 +21,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -55,7 +55,14 @@ public class AuthRestAPIs {
     JwtAuthTokenFilter jwtAuthTokenFilter;
 
     @PostMapping("/signIn")
-    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody SignIn login, HttpServletRequest request) {
+    public ResponseEntity<JwtResponse> authenticateUser(@RequestBody SignIn login) {
+        Optional<Utilisateur> userByEmail = userRepository.findByEmail(login.getEmail());
+        Optional<Utilisateur> userByUsername = userRepository.findByUsername(login.getEmail());
+        Optional<Utilisateur> user = userByEmail.isPresent() ? userByEmail : userByUsername;
+        /*
+        if(user.get().isBlocked()){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }*/
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -63,12 +70,12 @@ public class AuthRestAPIs {
 
         List<String> jwt = jwtProvider.generateJwtTokens(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt.get(0),jwt.get(1), userDetails.getUsername(), userDetails.getAuthorities()));
+        return ResponseEntity.ok(new JwtResponse(jwt.get(0),jwt.get(1), userDetails.getUsername(),user.get().getId(), userDetails.getAuthorities()));
     }
 
 
-    /* @PostMapping("/signIn")
 
+    /* @PostMapping("/signIn")
     public ResponseEntity<JwtResponse> authenticateUser(@RequestBody SignIn login) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
@@ -76,7 +83,6 @@ public class AuthRestAPIs {
         String jwt = jwtProvider.generateJwtToken(authentication)
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return ResponseEntity.ok(new JwtResponse(jwt, userDetails.getUsername(), userDetails.getAuthorities()));
-
     }*/
     // Create a new controller method for token refresh
 
@@ -85,8 +91,7 @@ public class AuthRestAPIs {
         String refreshToken = extractRefreshToken(request);
         if (refreshToken != null && jwtAuthTokenFilter.isValidRefreshToken(refreshToken)) {
             String newAccessToken = jwtAuthTokenFilter.issueNewAccessToken(refreshToken);
-            String newRefreshToken = jwtProvider.generateRefreshToken();
-            return ResponseEntity.ok(new JwtResponse(newAccessToken, newRefreshToken));
+            return ResponseEntity.ok(new JwtResponse(newAccessToken, refreshToken));
         } else {
             return ResponseEntity.badRequest().body("Invalid or expired refresh token");
         }

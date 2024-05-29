@@ -1,7 +1,6 @@
 package com.test.Inoteqia.Services;
 
 import com.test.Inoteqia.DTO.RoleName;
-import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Exception.ResourceNotFoundException;
@@ -69,46 +68,17 @@ CryptDecrypt cryptDecrypt;
     }
 
     // fiind  Medecin By Id
-    public Medecin getMedecinById(Long idMedecin) {
-        return medecinRepository.findById(idMedecin).
+    public Utilisateur getMedecinById(Long idMedecin) {
+        return utilisateurRepository.findById(idMedecin).
                 orElseThrow(() -> new ResourceNotFoundException("id Medecin " + idMedecin + " not found"));
     }
     // Delete Medecin
+    /*
     public ResponseEntity<?> deleteMed(Long id){
-        Medecin medecin=getMedecinById(id);
+        Utilisateur medecin=(id);
         medecinRepository.delete(medecin);
         return ResponseEntity.ok().build();
-    }
-
-/*
-    public ResponseEntity<Utilisateur> registerMe(Utilisateur m1, String roleName) throws Exception {
-        if (UtilisateurRepository.existsByEmail(m1.getEmail())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
-        }
-        Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(m1.getName()), cryptDecrypt.encryptSensitiveInformation(m1.getUsername()), cryptDecrypt.encryptSensitiveInformation(m1.getEmail()), passwordEncoder.encode(m1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(m1.getAddress()), false);
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim()))
-                .orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
-        roles.add(userRole);
-        utilisateur.setRoles(roles);
-        utilisateur.setValid(false);
-        Utilisateur suser = utilisateurRepository.save(utilisateur);
-        if (suser != null) {
-            String Newligne = System.getProperty("line.separator");
-            String body = "Soyez le bienvenue dans notre platforme ECOtalan  \n  merci pour votre inscription vous attendre l'activation de votre cante apartier de admin" ;
-            try {
-                mailSending.send(utilisateur.getEmail(), "Welcome", body);
-                return new ResponseEntity<Utilisateur>(utilisateur, HttpStatus.OK);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-        } else {
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-    }
-*/
+    }*/
 
     public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1, String roleName) throws Exception {
         if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
@@ -148,6 +118,15 @@ CryptDecrypt cryptDecrypt;
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
+    }
+    public Utilisateur deleteUtilisateur(Long id){
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+        if (utilisateur.isPresent()) {
+            utilisateurRepository.deleteById(id);
+            return utilisateur.get();
+        } else {
+            return null;
+        }
     }
 
 

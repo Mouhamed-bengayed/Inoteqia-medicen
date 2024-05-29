@@ -16,6 +16,7 @@ import java.util.List;
 public class JwtProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtProvider.class);
+
     @Value("${cryptoserver.app.jwtSecret}")
     private String jwtSecret;
 
@@ -25,20 +26,25 @@ public class JwtProvider {
     public String generateAccessToken(Authentication authentication) {
 
         UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
-
+       // long ACCESS_TOKEN_VALIDITY_MS =    50 * 1000;
+        long ACCESS_TOKEN_VALIDITY_MS =  5 * 24 * 60 * 60 * 1000;
         return Jwts.builder()
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpiration*1000))
+                .setExpiration(new Date((new Date()).getTime() + ACCESS_TOKEN_VALIDITY_MS))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
                 .compact();
     }
-    public String generateRefreshToken() {
-        // Define refresh token expiration time (e.g., 7 days)
-        long refreshTokenExpiration = jwtExpiration * 7 * 24 * 60 * 60 * 1000; // milliseconds
+    public String generateRefreshToken(Authentication authentication) {
+        //long refreshTokenExpiration =  10*60 * 1000;
+        long refreshTokenExpiration = 2L * 7 * 24 * 60 * 60 * 1000;
+
+        UserPrinciple userPrincipal = (UserPrinciple) authentication.getPrincipal();
 
         // Create refresh token
         return Jwts.builder()
+                .setSubject((userPrincipal.getUsername()))
+
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .signWith(SignatureAlgorithm.HS512, jwtSecret)
@@ -52,7 +58,7 @@ public class JwtProvider {
         String accessToken = generateAccessToken(authentication);
 
         // Generate refresh token
-        String refreshToken = generateRefreshToken();
+        String refreshToken = generateRefreshToken(authentication);
 
         // Create a list to hold both tokens
         List<String> tokens = new ArrayList<>();
@@ -74,7 +80,7 @@ public class JwtProvider {
         } catch (MalformedJwtException e) {
             logger.error("Invalid JWT token -> Message: {}", e);
         } catch (ExpiredJwtException e) {
-            logger.error("Expired JWT token -> Message: {}", e);
+       //     logger.error(" expired Access Token ", e);
         } catch (UnsupportedJwtException e) {
             logger.error("Unsupported JWT token -> Message: {}", e);
         } catch (IllegalArgumentException e) {
