@@ -1,6 +1,6 @@
 package com.test.Inoteqia.Services;
 
-import com.test.Inoteqia.Entity.Suivi1Post_Immediat;
+import com.test.Inoteqia.Entity.Consultations1Post_Immediat;
 import com.test.Inoteqia.Reposotories.Suivi1Post_immediatRrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class Suivi1PostServices {
     @Autowired
     Suivi1Post_immediatRrepository suivi1Post_immediatRrepository;
 
-    public ResponseEntity<Suivi1Post_Immediat> registerSuivi1Post_Immediat(Suivi1Post_Immediat p1) throws Exception {
-        Suivi1Post_Immediat suivi1Post_immediat = new Suivi1Post_Immediat(
+    public ResponseEntity<Consultations1Post_Immediat> registerSuivi1Post_Immediat(Consultations1Post_Immediat p1) throws Exception {
+        Consultations1Post_Immediat suivi1Post_immediat = new Consultations1Post_Immediat(
                 cryptDecrypt.encryptSensitiveInformation(p1.getDate_chirurgie()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getDate_suiui()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getDissectomie_etage()),
@@ -43,8 +43,8 @@ public class Suivi1PostServices {
                 cryptDecrypt.encryptSensitiveInformation(p1.getExamen_Post_Examen_perinee_Reflexe_anal())) ;
 
         if(suivi1Post_immediat!=null){
-            Suivi1Post_Immediat suivi1Post = suivi1Post_immediatRrepository.save(suivi1Post_immediat);
-            return new ResponseEntity<Suivi1Post_Immediat>(suivi1Post, HttpStatus.OK);
+            Consultations1Post_Immediat suivi1Post = suivi1Post_immediatRrepository.save(suivi1Post_immediat);
+            return new ResponseEntity<Consultations1Post_Immediat>(suivi1Post, HttpStatus.OK);
         }
         else
         {

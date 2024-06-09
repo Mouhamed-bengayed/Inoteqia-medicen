@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-public class Staff extends Suivi{
+public class Staff extends Consultations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +34,9 @@ public class Staff extends Suivi{
         this.indication_Liberation_etage = indication_Liberation_etage;
         this.indication_Arthrodese = indication_Arthrodese;
         this.conclusion = conclusion;
+    }
+
+    public Staff() {
+
     }
 }

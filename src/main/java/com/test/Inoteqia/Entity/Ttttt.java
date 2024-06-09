@@ -3,14 +3,10 @@ package com.test.Inoteqia.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
-import java.io.Serializable;
 
+@Entity
 @Data
-@MappedSuperclass
-public abstract class Suivi implements Serializable {
-
-
-
+public class Ttttt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,5 +16,9 @@ public abstract class Suivi implements Serializable {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Medecin medecin;
+
+    public Ttttt() {
+    }
+
 
 }

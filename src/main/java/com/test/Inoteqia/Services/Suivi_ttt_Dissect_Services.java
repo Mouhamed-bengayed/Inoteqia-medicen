@@ -1,6 +1,6 @@
 package com.test.Inoteqia.Services;
 
-import com.test.Inoteqia.Entity.Suivi_ttt_Dissect;
+import com.test.Inoteqia.Entity.Consultations_ttt_Dissect;
 import com.test.Inoteqia.Reposotories.Suivi_ttt_Dissect_Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class Suivi_ttt_Dissect_Services {
     @Autowired
     Suivi_ttt_Dissect_Repository suivi_ttt_dissect_repository;
 
-    public ResponseEntity<Suivi_ttt_Dissect> registerSuivittt_Dissect(Suivi_ttt_Dissect p1) throws Exception {
-        Suivi_ttt_Dissect suivi1Post_ttt= new Suivi_ttt_Dissect(
+    public ResponseEntity<Consultations_ttt_Dissect> registerSuivittt_Dissect(Consultations_ttt_Dissect p1) throws Exception {
+        Consultations_ttt_Dissect suivi1Post_ttt= new Consultations_ttt_Dissect(
                 cryptDecrypt.encryptSensitiveInformation(p1.getDate_de_consultation()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getAge()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getAddresse()),
@@ -134,8 +134,8 @@ public class Suivi_ttt_Dissect_Services {
         );
 
         if (suivi1Post_ttt != null) {
-            Suivi_ttt_Dissect suivi1Post = suivi_ttt_dissect_repository.save(suivi1Post_ttt);
-            return new ResponseEntity<Suivi_ttt_Dissect>(suivi1Post, HttpStatus.OK);
+            Consultations_ttt_Dissect suivi1Post = suivi_ttt_dissect_repository.save(suivi1Post_ttt);
+            return new ResponseEntity<Consultations_ttt_Dissect>(suivi1Post, HttpStatus.OK);
         } else {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
