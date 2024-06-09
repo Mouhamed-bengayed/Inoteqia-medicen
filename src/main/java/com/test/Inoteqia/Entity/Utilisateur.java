@@ -27,7 +27,7 @@ public class Utilisateur {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
     private List<Patient> patients;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
-    private List<Consultations> consultations;
+    private List<Ttttt> consultations;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JsonIgnore

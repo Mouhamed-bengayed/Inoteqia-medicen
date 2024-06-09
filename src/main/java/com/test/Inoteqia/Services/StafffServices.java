@@ -1,9 +1,7 @@
 package com.test.Inoteqia.Services;
 
 import com.test.Inoteqia.Entity.Staff;
-import com.test.Inoteqia.Entity.Suivi1Post_Immediat;
 import com.test.Inoteqia.Reposotories.StafffRepository;
-import com.test.Inoteqia.Reposotories.Suivi1Post_immediatRrepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

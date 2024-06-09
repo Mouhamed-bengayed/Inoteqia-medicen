@@ -1,8 +1,6 @@
 package com.test.Inoteqia.Entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Staff extends Suivi{
+public class Staff extends Consultations {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,5 +34,9 @@ public class Staff extends Suivi{
         this.indication_Liberation_etage = indication_Liberation_etage;
         this.indication_Arthrodese = indication_Arthrodese;
         this.conclusion = conclusion;
+    }
+
+    public Staff() {
+
     }
 }

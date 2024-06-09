@@ -1,13 +1,13 @@
 package com.test.Inoteqia.Entity;
 
-
 import lombok.Data;
 import javax.persistence.*;
 
-
 @Entity
+@Table(name = "suivi_ttt_dissect")
 @Data
-public class SuiviArthrodese extends Suivi{
+public class Consultations_ttt_Dissect extends Consultations {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -79,8 +79,8 @@ public class SuiviArthrodese extends Suivi{
     private String traitement_propose_Type_chirurgie;
     private String traitement_propose_Auter        ;
 
-    private String rx_Standard;
-    private String rx_Standard_qualite;
+    private String rx_standard;
+    private String rx_standard_qualite;
     private String pincement_discal;
     private String pincement_discal_etage;
     private String pincement_discal_Pourcentage;
@@ -137,7 +137,7 @@ public class SuiviArthrodese extends Suivi{
 
 
 
-    public SuiviArthrodese( String date_de_consultation, String age, String addresse, String telephone, String profession, String statut_social, String entourage_actuel, String atcd, String tabac, String evolution, String evolution_nouvelles_symptomatologies, String poids, String taille, String bMI, String deformation_rachidienne, String douleur_pression_lombairer_epineuses, String amelioration_flexion_rachis, String contracture_muscles_paravertebraux, String dMS, String sonnette, String sonnette_Niveau, String lasegue, String lasegue_controlateral, String leri, String indice_shober, String rOT_rotulien, String rOT_achillien, String rOT_perinee, String marche_talons, String marche_pointes_pieds, String testing_musculaire_L2, String testing_musculaire_L3, String testing_musculaire_L4, String testing_musculaire_L5, String testing_musculaire_S1, String sensibilte_L2, String sensibilte_L3, String sensibilte_L4, String sensibilte_L5, String sensibilte_S1, String examen_perinee_sensibilite, String examen_perinee_Tonus_anal, String examen_perinee_Reflexe_anal, String intensite_douleur, String soins_personnels, String levee, String marche, String assis, String debout, String sommeil, String vie_sexuelle, String vie_sociale, String voyage, String resultat, String hypothese_diagnostic_HD, String hypothese_diagnostic_type, String hypothese_diagnostic_Localisation, String traitement_propose, String traitement_propose_Nbre_infiltrations, String traitement_propose_Nbre_seances, String traitement_propose_Type_chirurgie, String traitement_propose_Auter, String rx_Standard, String rx_Standard_qualite, String pincement_discal, String pincement_discal_etage, String pincement_discal_Pourcentage, String vide_discal, String vide_discal_etage, String sPDL, String sPDL_etage, String sPDL_Grade, String anomalie_transitionnelle, String canal_lombaire_etroit, String lordose_Lombaire, String incidence_pelvienne, String pente_sacree, String version_perlvienne, String rx_dynamique, String rx_dynamique_qualite, String rx_dynamique_Instabilite, String tDM, String tDM_pincement_discal, String tDM_pincement_discal_etage, String tDM_pincement_discal_pourcentage, String tDM_vide_discal, String tDM_vide_discal_etage, String tDM_vide_discal_Pourcentage, String tDM_hernie_discale, String tDM_hernie_discale_type, String tDM_hernie_discale_etage, String tDM_sPDL, String tDM_sPDL_etage, String tDM_sPDL_grade, String tDM_instabilite, String tDM_instabilite_etage, String tDM_apophysaire, String tDM_apophysaire_etage, String tDM_anomalie_transitionnelle, String tDM_canal_lombaire_etroit, String iRM, String iRM_pincementdiscal, String iRM_pincementdiscal_etage, String iRM_pincementdiscal_Pourcentage, String iRM_herniediscale, String iRM_herniediscale_etage, String iRM_herniediscale_Type, String iRM_hypertrophie_jaunes, String iRM_arthrose_apophysaire, String iRM_arthrose_apophysaire_etage, String iRM_canal_lombaire_etroit, String iRM_volume_disque_hernie, String iRM_etat_disques_sous_jacent, String iRM_etat_disques_sus_jacent) {
+    public Consultations_ttt_Dissect(String date_de_consultation, String age, String addresse, String telephone, String profession, String statut_social, String entourage_actuel, String atcd, String tabac, String evolution, String evolution_nouvelles_symptomatologies, String poids, String taille, String bMI, String deformation_rachidienne, String douleur_pression_lombairer_epineuses, String amelioration_flexion_rachis, String contracture_muscles_paravertebraux, String dMS, String sonnette, String sonnette_Niveau, String lasegue, String lasegue_controlateral, String leri, String indice_shober, String rOT_rotulien, String rOT_achillien, String rOT_perinee, String marche_talons, String marche_pointes_pieds, String testing_musculaire_L2, String testing_musculaire_L3, String testing_musculaire_L4, String testing_musculaire_L5, String testing_musculaire_S1, String sensibilte_L2, String sensibilte_L3, String sensibilte_L4, String sensibilte_L5, String sensibilte_S1, String examen_perinee_sensibilite, String examen_perinee_Tonus_anal, String examen_perinee_Reflexe_anal, String intensite_douleur, String soins_personnels, String levee, String marche, String assis, String debout, String sommeil, String vie_sexuelle, String vie_sociale, String voyage, String resultat, String hypothese_diagnostic_HD, String hypothese_diagnostic_type, String hypothese_diagnostic_Localisation, String traitement_propose, String traitement_propose_Nbre_infiltrations, String traitement_propose_Nbre_seances, String traitement_propose_Type_chirurgie, String traitement_propose_Auter, String rx_standard, String rx_standard_qualite, String pincement_discal, String pincement_discal_etage, String pincement_discal_Pourcentage, String vide_discal, String vide_discal_etage, String sPDL, String sPDL_etage, String sPDL_Grade, String anomalie_transitionnelle, String canal_lombaire_etroit, String lordose_Lombaire, String incidence_pelvienne, String pente_sacree, String version_perlvienne, String rx_dynamique, String rx_dynamique_qualite, String rx_dynamique_Instabilite, String tDM, String tDM_pincement_discal, String tDM_pincement_discal_etage, String tDM_pincement_discal_pourcentage, String tDM_vide_discal, String tDM_vide_discal_etage, String tDM_vide_discal_Pourcentage, String tDM_hernie_discale, String tDM_hernie_discale_type, String tDM_hernie_discale_etage, String tDM_sPDL, String tDM_sPDL_etage, String tDM_sPDL_grade, String tDM_instabilite, String tDM_instabilite_etage, String tDM_apophysaire, String tDM_apophysaire_etage, String tDM_anomalie_transitionnelle, String tDM_canal_lombaire_etroit, String iRM, String iRM_pincementdiscal, String iRM_pincementdiscal_etage, String iRM_pincementdiscal_Pourcentage, String iRM_herniediscale, String iRM_herniediscale_etage, String iRM_herniediscale_Type, String iRM_hypertrophie_jaunes, String iRM_arthrose_apophysaire, String iRM_arthrose_apophysaire_etage, String iRM_canal_lombaire_etroit, String iRM_volume_disque_hernie, String iRM_etat_disques_sous_jacent, String iRM_etat_disques_sus_jacent) {
         this.date_de_consultation = date_de_consultation;
         this.age = age;
         this.addresse = addresse;
@@ -200,8 +200,8 @@ public class SuiviArthrodese extends Suivi{
         this.traitement_propose_Nbre_seances = traitement_propose_Nbre_seances;
         this.traitement_propose_Type_chirurgie = traitement_propose_Type_chirurgie;
         this.traitement_propose_Auter = traitement_propose_Auter;
-        this.rx_Standard = rx_Standard;
-        this.rx_Standard_qualite = rx_Standard_qualite;
+        this.rx_standard = rx_standard;
+        this.rx_standard_qualite = rx_standard_qualite;
         this.pincement_discal = pincement_discal;
         this.pincement_discal_etage = pincement_discal_etage;
         this.pincement_discal_Pourcentage = pincement_discal_Pourcentage;
@@ -256,11 +256,8 @@ public class SuiviArthrodese extends Suivi{
 
 
 
-    public SuiviArthrodese(){
 
-    }
+    public Consultations_ttt_Dissect() {}
 
 
 }
-
-

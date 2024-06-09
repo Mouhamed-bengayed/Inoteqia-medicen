@@ -7,7 +7,6 @@ import java.util.List;
 @Data
 public class Medecin {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

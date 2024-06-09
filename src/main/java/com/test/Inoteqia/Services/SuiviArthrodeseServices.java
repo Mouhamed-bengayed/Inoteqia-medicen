@@ -1,6 +1,6 @@
 package com.test.Inoteqia.Services;
 
-import com.test.Inoteqia.Entity.SuiviArthrodese;
+import com.test.Inoteqia.Entity.ConsultationsArthrodese;
 import com.test.Inoteqia.Reposotories.SuiviArthrodeseReposotories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +15,8 @@ public class SuiviArthrodeseServices {
     @Autowired
     SuiviArthrodeseReposotories suiviArthrodeseReposotories;
 
-    public ResponseEntity<SuiviArthrodese> registerSuiviArthrodese(SuiviArthrodese p1) throws Exception {
-        SuiviArthrodese suiviArthrodese= new SuiviArthrodese(
+    public ResponseEntity<ConsultationsArthrodese> registerSuiviArthrodese(ConsultationsArthrodese p1) throws Exception {
+        ConsultationsArthrodese suiviArthrodese= new ConsultationsArthrodese(
                 cryptDecrypt.encryptSensitiveInformation(p1.getDate_de_consultation()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getAge()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getAddresse()),
@@ -134,8 +134,8 @@ public class SuiviArthrodeseServices {
         );
 
         if (suiviArthrodese != null) {
-            SuiviArthrodese suivi1Post = suiviArthrodeseReposotories.save(suiviArthrodese);
-            return new ResponseEntity<SuiviArthrodese>(suivi1Post, HttpStatus.OK);
+            ConsultationsArthrodese suivi1Post = suiviArthrodeseReposotories.save(suiviArthrodese);
+            return new ResponseEntity<ConsultationsArthrodese>(suivi1Post, HttpStatus.OK);
         } else
         {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
