@@ -59,10 +59,10 @@ public class AuthRestAPIs {
         Optional<Utilisateur> userByEmail = userRepository.findByEmail(login.getEmail());
         Optional<Utilisateur> userByUsername = userRepository.findByUsername(login.getEmail());
         Optional<Utilisateur> user = userByEmail.isPresent() ? userByEmail : userByUsername;
-        /*
-        if(user.get().isBlocked()){
+
+        if(user.get().isValid()==false){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }*/
+        }
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);

@@ -2,14 +2,18 @@ package com.test.Inoteqia.ServiceIMP;
 
 
 import com.test.Inoteqia.DTO.OTP;
+import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Interfaces.OTPInterface;
 import com.test.Inoteqia.Reposotories.OTPRepository;
+import com.test.Inoteqia.Reposotories.UtilisateurRepository;
+import com.test.Inoteqia.Services.MailSenderService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Random;
 @Service
 @AllArgsConstructor
@@ -17,7 +21,17 @@ import java.util.Random;
 public class OTPServiceIMP implements OTPInterface {
 @Autowired
 OTPRepository otpRepository;
-
+    @Autowired
+    MailSenderService mailSending;
+@Autowired
+UtilisateurRepository userRepository;
+    @Override
+    public void userstatus(String emailuser, Boolean result) {
+        if(result==true){
+            Optional<Utilisateur> user = userRepository.findByEmail(emailuser);
+            user.get().setValid(true);
+            userRepository.save(user.get());}
+    }
 
     @Override
     public OTP GenerateOTp() {
@@ -61,16 +75,22 @@ OTPRepository otpRepository;
 
 
     @Override
-    public OTP ResendOTP(OTP existingOTP) {
+    public OTP ResendOTP(String email) {
         // Check if the existing OTP has expired
-        Date now = new Date();
-        if (existingOTP.getExpiredDate().before(now)) {
-            // Generate and save a new OTP with updated expiration date
-            return GenerateOTp();
-        } else {
-            // OTP is still valid, return the existing OTP without generating a new one
-            return existingOTP;
+
+        OTP newOtp= GenerateOTp();
+        Optional<Utilisateur> user = userRepository.findByEmail(email);
+        String verificationCode = newOtp.getIdentification() ;// Replace with your actual verification code
+        String htmlMessage = "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
+                + "Soyez le bienvenue  /n"
+                + "<strong>Verification Code ! max 5 min ! :</strong>  "+"/n" + verificationCode +
+                "</div>";
+        try {
+            mailSending.send(user.get().getEmail(), "OTP Code pour  "+ user.get().getName() , htmlMessage);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
+        return newOtp;
     }
 
 

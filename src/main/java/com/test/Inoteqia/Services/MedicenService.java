@@ -80,7 +80,7 @@ CryptDecrypt cryptDecrypt;
         return ResponseEntity.ok().build();
     }*/
 
-    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1, String roleName) throws Exception {
+    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1) throws Exception {
         if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
         }
@@ -88,22 +88,23 @@ CryptDecrypt cryptDecrypt;
      /*   Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(user1.getName()), cryptDecrypt.encryptSensitiveInformation(user1.getUsername()), cryptDecrypt.encryptSensitiveInformation(user1.getEmail()), passwordEncoder.encode(user1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(user1.getAddresse()), false);*/
 
         Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName(RoleName.valueOf(roleName.trim())).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
+        Role userRole = roleRepository.findById(1L).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
         utilisateur.setRoles(roles);
         utilisateur.setValid(false);
         Utilisateur suser = utilisateurRepository.save(utilisateur);
         if (suser != null) {
             //String Newligne = System.getProperty("line.separator");
-            String url = "http://localhost:4200/#/verification" ;
+            String url = "http://localhost:4200/verification";
             String verificationCode = otpInterface.GenerateOTp().getIdentification(); // Replace with your actual verification code
             String newLine = "<br/>"; // HTML line break
             String htmlMessage = "<div style='border: 1px solid #ccc; padding: 10px; margin-bottom: 10px;'>"
                     + "Soyez le bienvenue dans notre plateforme" + newLine
                     + "Veuillez utiliser ce lien pour vous authentifier : " + newLine
-                    + "<a href='" + url + "'>" + url + "</a>" + newLine
+                    + "<a href='" + url + "'>cliquer ici</a>" + newLine
                     + "<strong>Verification Code:</strong> " + verificationCode + newLine
                     + "</div>";
+
             /*String ms=cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail());*/
             String ms=utilisateur.getEmail();
 

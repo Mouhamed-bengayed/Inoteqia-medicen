@@ -29,9 +29,9 @@ public class MedecinController {
         return medicenService.getAllMedecins();
     }
 
-    @RequestMapping(value = "/signup/medecin/{roleName}", method = RequestMethod.POST)
-    public ResponseEntity<Utilisateur> registerMedecin(@Validated @RequestBody Utilisateur p1, @PathVariable ("roleName")String roleName) throws Exception {
-        return medicenService.registerMedecin(p1,roleName);
+    @RequestMapping(value = "/signup/medecin", method = RequestMethod.POST)
+    public ResponseEntity<Utilisateur> registerMedecin(@Validated @RequestBody Utilisateur p1) throws Exception {
+        return medicenService.registerMedecin(p1);
     }
 
     @DeleteMapping("/delete/{id}")

@@ -1,12 +1,17 @@
 package com.test.Inoteqia.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
 @MappedSuperclass
+@NoArgsConstructor
+@AllArgsConstructor
 public abstract class Suivi implements Serializable {
 
 

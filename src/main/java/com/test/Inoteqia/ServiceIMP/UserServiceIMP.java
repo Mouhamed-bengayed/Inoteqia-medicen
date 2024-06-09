@@ -144,7 +144,7 @@ public class UserServiceIMP implements UserServiceInterface {
                     + "<strong>Verification Code:</strong> " + verificationCode + newLine
                     + "</div>";
             try {
-                mailSending.send(user.get().getEmail(), "Did you Forget your password ?"+ user.get().getName() , htmlMessage);
+                mailSending.send(user.get().getEmail(), "Avez-Vous  oublié votre  mot de passe  ?"+ user.get().getName() , htmlMessage);
                 return new ResponseEntity<>( HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());

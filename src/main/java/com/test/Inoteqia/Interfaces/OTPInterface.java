@@ -6,7 +6,9 @@ public interface OTPInterface {
     OTP GenerateOTp( );
     Boolean VerifOTP(String otp) ;
 
-    OTP ResendOTP(OTP existingOTP);
+    OTP ResendOTP(String email);
     void  DeleteALLOTP();
+    void userstatus(String emailuser, Boolean result);
+
 
 }
