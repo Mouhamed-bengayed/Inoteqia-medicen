@@ -19,8 +19,9 @@ public class Utilisateur {
     private String password;
     private String number;
     private String addresse;
-    private Boolean blocked;
+    private boolean blocked;
     private boolean valid;
+    private String Status;
     private String token;
 
 

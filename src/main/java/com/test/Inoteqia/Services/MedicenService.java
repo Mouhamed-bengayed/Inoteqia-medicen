@@ -81,6 +81,9 @@ CryptDecrypt cryptDecrypt;
     }*/
 
     public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1) throws Exception {
+        if (utilisateurRepository.existsByUsername(user1.getUsername())) {
+            return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
+        }
         if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
             return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
         }
