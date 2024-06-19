@@ -5,6 +5,9 @@ public enum RoleName {
     ROLE_USER,
     ROLE_ADMIN,
     ROLE_PATIENT,
-    ROLE_MEDECIN
+    ROLE_MEDECIN,
+    ROLE_SUPER_ADMIN,
+
+
 
 }

@@ -2,13 +2,19 @@ package com.test.Inoteqia.Entity;
 
 import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,12 +32,14 @@ public class Utilisateur {
 
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
+    @ToString.Exclude
     private List<Patient> patients;
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
+    @ToString.Exclude
     private List<Ttttt> consultations;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JsonIgnore
+
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -52,9 +60,6 @@ public class Utilisateur {
 
     }
 
-    public Utilisateur() {
-
-    }
 
 
 
