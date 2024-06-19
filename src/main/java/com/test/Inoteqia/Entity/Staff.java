@@ -24,6 +24,7 @@ public class Staff extends Consultations {
     private String indication_Arthrodese;
     private String conclusion;
 
+
     public Staff(String date, String diagnostic_preop, String indication_Antalgique, String indication_Infiltrations_Nbreinfiltrations, String indication_Reeducation_Nbreseances, String indication_Dissectomie_etage, String indication_Liberation_etage, String indication_Arthrodese, String conclusion) {
         this.date = date;
         this.diagnostic_preop = diagnostic_preop;

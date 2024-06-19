@@ -20,4 +20,7 @@ public class Administrateur extends Utilisateur{
     private List<Medecin> medecins=new ArrayList<>();
     @OneToMany
     private List<Patient> patients=new ArrayList<>();
+    @OneToMany
+    private List<Consultations> consultations=new ArrayList<>();
+
 }

@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @Entity
-public abstract class Consultations implements Serializable {
+public  class Consultations implements Serializable {
 
 
 
@@ -17,11 +17,13 @@ public abstract class Consultations implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String dateConsultation;
-    @OneToOne
-    private Suivis suivis;
+
     @ManyToOne
     private Patient patient;
     @ManyToOne
     private Medecin medecin;
+
+    @ManyToOne
+    private Administrateur administrateur;
 
 }
