@@ -25,18 +25,14 @@ public class Utilisateur {
     private String password;
     private String number;
     private String addresse;
-    private boolean blocked;
-    private boolean valid;
-    private String Status;
+    private boolean blockedByAdmin;
+
+    private boolean mailvalid;
+
+    private String Status ;
     private String token;
 
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
-    @ToString.Exclude
-    private List<Patient> patients;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
-    @ToString.Exclude
-    private List<Ttttt> consultations;
 
     @ManyToMany(fetch = FetchType.LAZY)
 
@@ -52,9 +48,9 @@ public class Utilisateur {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.blocked = blocked;
+
         this.addresse = address;
-        this.valid = valid;
+
 
 
 

@@ -2,6 +2,8 @@ package com.test.Inoteqia.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -34,9 +36,9 @@ public class Patient {
 
 
 
-    @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Medecin medecin;
+
+    @OneToMany
+    private List<Consultations> consultations=new ArrayList<>();
 
 
 

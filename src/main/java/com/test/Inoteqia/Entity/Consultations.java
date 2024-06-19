@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
-@MappedSuperclass
+@Entity
 public abstract class Consultations implements Serializable {
 
 
@@ -14,11 +16,12 @@ public abstract class Consultations implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String dateConsultation;
+    @OneToOne
+    private Suivis suivis;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Patient patient;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Medecin medecin;
 
 }

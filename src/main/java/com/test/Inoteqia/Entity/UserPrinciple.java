@@ -49,7 +49,7 @@ public class UserPrinciple implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 authorities,
-                user.isValid()
+                user.isMailvalid()
         );
     }
 

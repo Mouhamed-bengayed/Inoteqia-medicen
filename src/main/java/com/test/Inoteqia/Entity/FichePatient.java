@@ -135,4 +135,6 @@ public class FichePatient extends Consultations {
     @ManyToOne
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Medecin medecin;
+    @OneToOne
+    private Patient patient;
 }

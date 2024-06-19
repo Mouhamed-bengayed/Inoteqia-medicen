@@ -1,21 +1,24 @@
 package com.test.Inoteqia.Entity;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Data
-public class Medecin {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Medecin extends Utilisateur {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String specialite;
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL,mappedBy = "medecin")
-    private List<Patient> patients=new ArrayList<>();
-    @OneToOne
-    private Utilisateur utilisateur;
-    public Medecin(String name, String username, String email, String encode, boolean b, String address, boolean b1) {}
-    public Medecin(){}
+
+    @OneToMany
+    private List<Consultations> consultations=new ArrayList<>();
+     public Medecin(String name, String username, String email, String encode, boolean b, String address, boolean b1) {}
 }
