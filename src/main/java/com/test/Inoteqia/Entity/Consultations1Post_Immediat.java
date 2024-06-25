@@ -1,4 +1,5 @@
 package com.test.Inoteqia.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 
@@ -6,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class Consultations1Post_Immediat extends Consultations {
+public class Consultations1Post_Immediat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -36,7 +37,8 @@ public class Consultations1Post_Immediat extends Consultations {
     private String examen_Post_Examen_perinee_sensibilite;
     private String examen_Post_Examen_perinee_Tonus_anal;
     private String examen_Post_Examen_perinee_Reflexe_anal;
-
+    @ManyToOne
+    private Medecin medecin;
 
 
     public Consultations1Post_Immediat(String date_chirurgie, String date_suiui, String dissectomie_etage, String liberation_post_etage, String arthrodese_etage, String complications_per_operatoire, String complications_per_operatoire_auter, String symptomatologie_Lombalgie, String symptomatologie_Sciatique, String symptomatologie_Cruralgie, String symptomatologie_sphinctériens, String examen_Post_Testing_musculaire_l2, String examen_Post_Testing_musculaire_l3, String examen_Post_Testing_musculaire_l4, String examen_Post_Testing_musculaire_l5, String examen_Post_Testing_musculaire_s1, String examen_Post_Sensibilte_musculaire_l2, String examen_Post_Sensibilte_musculaire_l3, String examen_Post_Sensibilte_musculaire_l4, String examen_Post_Sensibilte_musculaire_l5, String examen_Post_Sensibilte_musculaire_s1, String examen_Post_Examen_perinee_sensibilite, String examen_Post_Examen_perinee_Tonus_anal, String examen_Post_Examen_perinee_Reflexe_anal) {

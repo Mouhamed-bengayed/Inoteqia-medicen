@@ -40,36 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-    private final String[] PUBLIC_ENDPOINTS={
 
-            "/api/auth/signup/employee",
-            "/api/auth/signIn",
-            "/api/works/sum_carbo_works",
-            "/api/Bilan/list-Bilan",
-            "/api/message/add-message",
-            "/api/message/list-message",
-            "/api/Solution/list-Solution",
-            "/api/Solution/add-solution",
-            "/api/works/sum_carbo_works",
-            "/api/user/validate-user/{idUser}",
-            "/api/user/list-user",
-            "/api/user/list-Userco2/ASC",
-            "/api/user/list-RolesName/{RolesName}",
-            "/api/user/validate-user/{iduser}",
-            "/api/user/delete-user/{iduser}",
-            "/api/user/getUser/{idUser}",
-            "/v2/api-docs",
-            "/configuration/ui",
-            "/-resources/**",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**",
-            "/swagger-ui/index.html",
-            "/swagger-resources",
-            "/configuration/security",
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/refreshToken"    };
     @Override
 
     protected void configure(HttpSecurity http) throws Exception {

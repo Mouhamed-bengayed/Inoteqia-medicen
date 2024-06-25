@@ -30,7 +30,7 @@ public class MedecinController {
     }
 
     @RequestMapping(value = "/signup/medecin", method = RequestMethod.POST)
-    public ResponseEntity<Utilisateur> registerMedecin(@Validated @RequestBody Utilisateur p1) throws Exception {
+    public ResponseEntity<Medecin> registerMedecin(@Validated @RequestBody Medecin p1) throws Exception {
         return medicenService.registerMedecin(p1);
     }
 

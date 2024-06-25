@@ -2,14 +2,11 @@ package com.test.Inoteqia.Entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Data
-public class Staff extends Consultations {
+public class Staff  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +20,9 @@ public class Staff extends Consultations {
     private String indication_Liberation_etage;
     private String indication_Arthrodese;
     private String conclusion;
+
+    @ManyToOne
+    private Medecin medecin;
 
 
     public Staff(String date, String diagnostic_preop, String indication_Antalgique, String indication_Infiltrations_Nbreinfiltrations, String indication_Reeducation_Nbreseances, String indication_Dissectomie_etage, String indication_Liberation_etage, String indication_Arthrodese, String conclusion) {

@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "suivi_ttt_dissect")
 @Data
-public class Consultations_ttt_Dissect extends Consultations {
+public class Consultations_ttt_Dissect {
 
 
     @Id
@@ -133,6 +133,9 @@ public class Consultations_ttt_Dissect extends Consultations {
     private String iRM_volume_disque_hernie;
     private String iRM_etat_disques_sous_jacent;
     private String iRM_etat_disques_sus_jacent;
+    @ManyToOne
+    private Medecin medecin;
+
 
 
 

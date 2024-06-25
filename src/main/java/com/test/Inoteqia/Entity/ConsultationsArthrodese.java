@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class ConsultationsArthrodese extends Consultations {
+public class ConsultationsArthrodese  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -132,6 +132,8 @@ public class ConsultationsArthrodese extends Consultations {
     private String iRM_etat_disques_sous_jacent;
     private String iRM_etat_disques_sus_jacent;
 
+    @ManyToOne
+    private Medecin medecin;
 
 
 

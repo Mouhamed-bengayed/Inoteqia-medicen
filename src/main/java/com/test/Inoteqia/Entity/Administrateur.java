@@ -18,9 +18,8 @@ public class Administrateur extends Utilisateur{
     private Long id;
     @OneToMany
     private List<Medecin> medecins=new ArrayList<>();
+
     @OneToMany
-    private List<Patient> patients=new ArrayList<>();
-    @OneToMany
-    private List<Consultations> consultations=new ArrayList<>();
+    private List<FichePatient> FichePatients=new ArrayList<>();
 
 }

@@ -29,7 +29,7 @@ UtilisateurRepository userRepository;
     public void userstatus(String emailuser, Boolean result) {
         if(result==true){
             Optional<Utilisateur> user = userRepository.findByEmail(emailuser);
-            user.get().setValid(true);
+            user.get().setMailvalid(true);
             userRepository.save(user.get());}
     }
 

@@ -1,12 +1,12 @@
 package com.test.Inoteqia.Services;
 import com.test.Inoteqia.Entity.*;
-import com.test.Inoteqia.Reposotories.MedecinRepository;
-import com.test.Inoteqia.Reposotories.PatientRepository;
-import com.test.Inoteqia.Reposotories.RoleRepository;
-import com.test.Inoteqia.Reposotories.UtilisateurRepository;
+import com.test.Inoteqia.Reposotories.*;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.*;
 
@@ -16,26 +16,26 @@ public class PatientService {
 
     @Autowired
     UtilisateurRepository utilisateurRepository;
-    @Autowired
-    PatientRepository patientRepository;
+//    @Autowired
+//    PatientRepository patientRepository;
     @Autowired
     RoleRepository roleRepository;
     @Autowired
     CryptDecrypt cryptDecrypt;
     @Autowired
     MedecinRepository medecinRepository;
+   ;
 
 
-
-    public Patient deletePatient(Long id){
-        Optional<Patient> patient = patientRepository.findById(id);
-        if (patient.isPresent()) {
-            patientRepository.deleteById(id);
-            return patient.get();
-        } else {
-            return null;
-        }
-    }
+//    public Patient deletePatient(Long id){
+//        Optional<Patient> patient = patientRepository.findById(id);
+//        if (patient.isPresent()) {
+//            patientRepository.deleteById(id);
+//            return patient.get();
+//        } else {
+//            return null;
+//        }
+//    }
 
 
 
@@ -59,18 +59,22 @@ public class PatientService {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
     }*/
-
-    public ResponseEntity<Patient> registerPatient(Patient p1) throws Exception {
-        Patient patient1 = new Patient(cryptDecrypt.encryptSensitiveInformation(p1.getDate_de_consultation()), cryptDecrypt.encryptSensitiveInformation(p1.getDossierMedical()), cryptDecrypt.encryptSensitiveInformation(p1.getN_Dossier_medical()), cryptDecrypt.encryptSensitiveInformation(p1.getDossier_medical_num()), cryptDecrypt.encryptSensitiveInformation(p1.getName()), cryptDecrypt.encryptSensitiveInformation(p1.getUsername()), cryptDecrypt.encryptSensitiveInformation(p1.getSexe()), cryptDecrypt.encryptSensitiveInformation(p1.getAnnee_de_naissance()), cryptDecrypt.encryptSensitiveInformation(p1.getOrigine()), cryptDecrypt.encryptSensitiveInformation(p1.getIdPatient()), cryptDecrypt.encryptSensitiveInformation(p1.getAddresse()), cryptDecrypt.encryptSensitiveInformation(p1.getTelephone()), cryptDecrypt.encryptSensitiveInformation(p1.getProfession()), cryptDecrypt.encryptSensitiveInformation(p1.getAdresse_par()), cryptDecrypt.encryptSensitiveInformation(p1.getStatut_social()), cryptDecrypt.encryptSensitiveInformation(p1.getEntourage_actuel()), cryptDecrypt.encryptSensitiveInformation(p1.getAtcd()), cryptDecrypt.encryptSensitiveInformation(p1.getTabac()), cryptDecrypt.encryptSensitiveInformation(p1.getMotif_de_consultation()), cryptDecrypt.encryptSensitiveInformation(p1.getMotif_de_consultation_l())) ;
-
-        if(patient1!=null){
-                Patient pat1 = patientRepository.save(patient1);
-                return new ResponseEntity<Patient>(pat1, HttpStatus.OK);
-            }
-        else
-            {return new ResponseEntity(HttpStatus.BAD_REQUEST);
-            }
-        }
+   public Optional<Utilisateur> getCurrentUser() {
+       Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+       String username;
+       if (principal instanceof UserDetails) {
+           username = ((UserDetails) principal).getUsername();
+       } else {
+           username = principal.toString();
+       }
+       return utilisateurRepository.findByUsername(username);
+   }
+//    public ResponseEntity<Patient> registerPatient(Patient p1) throws Exception {
+//        Patient patient1 = new Patient(cryptDecrypt.encryptSensitiveInformation(p1.getDate_de_consultation()), cryptDecrypt.encryptSensitiveInformation(p1.getDossierMedical()), cryptDecrypt.encryptSensitiveInformation(p1.getN_Dossier_medical()), cryptDecrypt.encryptSensitiveInformation(p1.getDossier_medical_num()), cryptDecrypt.encryptSensitiveInformation(p1.getName()), cryptDecrypt.encryptSensitiveInformation(p1.getUsername()), cryptDecrypt.encryptSensitiveInformation(p1.getSexe()), cryptDecrypt.encryptSensitiveInformation(p1.getAnnee_de_naissance()), cryptDecrypt.encryptSensitiveInformation(p1.getOrigine()), cryptDecrypt.encryptSensitiveInformation(p1.getIdPatient()), cryptDecrypt.encryptSensitiveInformation(p1.getAddresse()), cryptDecrypt.encryptSensitiveInformation(p1.getTelephone()), cryptDecrypt.encryptSensitiveInformation(p1.getProfession()), cryptDecrypt.encryptSensitiveInformation(p1.getAdresse_par()), cryptDecrypt.encryptSensitiveInformation(p1.getStatut_social()), cryptDecrypt.encryptSensitiveInformation(p1.getEntourage_actuel()), cryptDecrypt.encryptSensitiveInformation(p1.getAtcd()), cryptDecrypt.encryptSensitiveInformation(p1.getTabac()), cryptDecrypt.encryptSensitiveInformation(p1.getMotif_de_consultation()), cryptDecrypt.encryptSensitiveInformation(p1.getMotif_de_consultation_l())) ;
+//       patientRepository.save(patient1);
+//        return new ResponseEntity<Patient>(patient1, HttpStatus.OK);
+//
+//        }
         /*
     public ResponseEntity<Patient> updatePatient(Long id, Patient updatedPatient) throws Exception {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -119,18 +123,18 @@ public class PatientService {
 */
 
 
-    public List<Patient> getAllPatient() throws Exception {
-        List<Patient> patients = patientRepository.findAll();
-        List<Patient> decryptedPatient = new ArrayList<>();
-        for (Patient patient : patients) {
-            // Décryptez les données sensibles pour chaque medecin
-            patient.setName(cryptDecrypt.decryptSensitiveInformation(patient.getName()));
-            patient.setUsername(cryptDecrypt.decryptSensitiveInformation(patient.getUsername()));
-            patient.setAddresse(cryptDecrypt.decryptSensitiveInformation(patient.getAddresse()));
-            decryptedPatient.add(patient);
-        }
-        return decryptedPatient;
-    }
+//    public List<Patient> getAllPatient() throws Exception {
+//        List<Patient> patients = patientRepository.findAll();
+//        List<Patient> decryptedPatient = new ArrayList<>();
+//        for (Patient patient : patients) {
+//            // Décryptez les données sensibles pour chaque medecin
+//            patient.setName(cryptDecrypt.decryptSensitiveInformation(patient.getName()));
+//            patient.setUsername(cryptDecrypt.decryptSensitiveInformation(patient.getUsername()));
+//            patient.setAddresse(cryptDecrypt.decryptSensitiveInformation(patient.getAddresse()));
+//            decryptedPatient.add(patient);
+//        }
+//        return decryptedPatient;
+//    }
 }
 
 

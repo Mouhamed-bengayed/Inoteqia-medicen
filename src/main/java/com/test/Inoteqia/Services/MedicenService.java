@@ -1,6 +1,7 @@
 package com.test.Inoteqia.Services;
 
 import com.test.Inoteqia.DTO.RoleName;
+import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Exception.ResourceNotFoundException;
@@ -80,22 +81,26 @@ CryptDecrypt cryptDecrypt;
         return ResponseEntity.ok().build();
     }*/
 
-    public ResponseEntity<Utilisateur> registerMedecin(Utilisateur user1) throws Exception {
-        if (utilisateurRepository.existsByUsername(user1.getUsername())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.NOT_FOUND);
+    public ResponseEntity<Medecin> registerMedecin(Medecin user1) throws Exception {
+        if (medecinRepository.existsByUsername(user1.getUsername())) {
+            return new ResponseEntity<Medecin>(HttpStatus.NOT_FOUND);
         }
-        if (UtilisateurRepository.existsByEmail(user1.getEmail())) {
-            return new ResponseEntity<Utilisateur>(HttpStatus.BAD_REQUEST);
+        if (medecinRepository.existsByEmail(user1.getEmail())) {
+            return new ResponseEntity<Medecin>(HttpStatus.BAD_REQUEST);
         }
-        Utilisateur utilisateur = new Utilisateur(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()),false, user1.getAddresse(), false);
+      //  Medecin utilisateur = new Medecin(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()),false, user1.getAddresse(), false);
      /*   Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(user1.getName()), cryptDecrypt.encryptSensitiveInformation(user1.getUsername()), cryptDecrypt.encryptSensitiveInformation(user1.getEmail()), passwordEncoder.encode(user1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(user1.getAddresse()), false);*/
-
+        user1.setPassword(passwordEncoder.encode(user1.getPassword()));
         Set<Role> roles = new HashSet<>();
         Role userRole = roleRepository.findById(1L).orElseThrow(() -> new RuntimeException("Fail! -> Cause: User Role not find."));
         roles.add(userRole);
-        utilisateur.setRoles(roles);
-        utilisateur.setValid(false);
-        Utilisateur suser = utilisateurRepository.save(utilisateur);
+        user1.setRoles(roles);
+        user1.setMailvalid(false);
+        user1.setStatus("En attente d'activation");
+        user1.setBlockedByAdmin(false);
+
+        Medecin suser = medecinRepository.save(user1);
+
         if (suser != null) {
             //String Newligne = System.getProperty("line.separator");
             String url = "http://localhost:4200/verification";
@@ -109,11 +114,11 @@ CryptDecrypt cryptDecrypt;
                     + "</div>";
 
             /*String ms=cryptDecrypt.decryptSensitiveInformation(utilisateur.getEmail());*/
-            String ms=utilisateur.getEmail();
+            String ms=user1.getEmail();
 
             try {
-                mailSending.send(ms, "Welcome" + utilisateur.getName(), htmlMessage);
-                return new ResponseEntity<Utilisateur>(utilisateur ,HttpStatus.OK);
+                mailSending.send(ms, "Welcome" + user1.getName(), htmlMessage);
+                return new ResponseEntity<Medecin>(user1 ,HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);

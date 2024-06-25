@@ -6,10 +6,32 @@ import javax.persistence.*;
 
 @Entity
 @Data
-public class FichePatient extends Consultations {
+public class FichePatient  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String date_de_consultation;
+    private String dossierMedical;
+    private String n_Dossier_medical;
+    private String Dossier_medical_num;
+    private String name;
+    private String username;
+    private String sexe;
+    private String annee_de_naissance;
+    private String origine;
+    private String idPatient;
+    private String addresse;
+    private String telephone;
+    private String profession;
+    private String adresse_par;
+    private String statut_social;
+    private String entourage_actuel;
+    private String atcd;
+    private String Tabac;
+    private String motif_de_consultation;
+    private String motif_de_consultation_l;
+
     private String aucn;
     private String date_debut_maladie;
     private String depuis;
@@ -133,8 +155,8 @@ public class FichePatient extends Consultations {
     private String iRM_etat_disques_sous_jacent;
     private String iRM_etat_disques_sus_jacent;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Medecin medecin;
-    @OneToOne
-    private Patient patient;
+    @ManyToOne
+    private Administrateur administrateur;
+
 }

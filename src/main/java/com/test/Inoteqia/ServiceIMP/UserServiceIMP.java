@@ -73,7 +73,7 @@ public class UserServiceIMP implements UserServiceInterface {
 
         if (user.isPresent()) {
 
-            user1.setValid(false);
+            user1.setMailvalid(false);
             this.utilisateurRepository.save(user1);
             try {
                 mailSending.send(ms, "bloque ", body);
@@ -94,7 +94,7 @@ public class UserServiceIMP implements UserServiceInterface {
                 "Voici votre code de verfication  TN1122" ;
         if (user.isPresent()) {
 
-            user1.setValid(true);
+            user1.setMailvalid(true);
             this.utilisateurRepository.save(user1);
             try {
                 mailSending.send(user1.getEmail(), "Welcome Provaider", body);

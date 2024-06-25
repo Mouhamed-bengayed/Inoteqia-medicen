@@ -19,6 +19,7 @@ public class Medecin extends Utilisateur {
     private String specialite;
 
     @OneToMany
-    private List<Consultations> consultations=new ArrayList<>();
+    private List<FichePatient> FichePatients=new ArrayList<>();
+
      public Medecin(String name, String username, String email, String encode, boolean b, String address, boolean b1) {}
 }
