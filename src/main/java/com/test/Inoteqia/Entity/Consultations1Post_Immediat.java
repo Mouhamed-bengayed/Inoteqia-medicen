@@ -6,6 +6,8 @@ import javax.persistence.*;
 
 
 @Entity
+@Table(name = "suivi_Post_Immediatt")
+
 @Data
 public class Consultations1Post_Immediat {
     @Id

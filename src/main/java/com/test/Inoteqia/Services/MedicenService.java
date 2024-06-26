@@ -81,12 +81,12 @@ CryptDecrypt cryptDecrypt;
         return ResponseEntity.ok().build();
     }*/
 
-    public ResponseEntity<Medecin> registerMedecin(Medecin user1) throws Exception {
-        if (medecinRepository.existsByUsername(user1.getUsername())) {
-            return new ResponseEntity<Medecin>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<?> registerMedecin(Medecin user1) throws Exception {
+//        if (medecinRepository.existsByUsername(user1.getUsername())) {
+//            return new ResponseEntity<Medecin>(HttpStatus.NOT_FOUND);
+//        }
         if (medecinRepository.existsByEmail(user1.getEmail())) {
-            return new ResponseEntity<Medecin>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("Cet utilisateur exist deja ",HttpStatus.BAD_REQUEST);
         }
       //  Medecin utilisateur = new Medecin(user1.getName(), user1.getUsername(), user1.getEmail(), passwordEncoder.encode(user1.getPassword()),false, user1.getAddresse(), false);
      /*   Utilisateur utilisateur = new Utilisateur(cryptDecrypt.encryptSensitiveInformation(user1.getName()), cryptDecrypt.encryptSensitiveInformation(user1.getUsername()), cryptDecrypt.encryptSensitiveInformation(user1.getEmail()), passwordEncoder.encode(user1.getPassword()), false, cryptDecrypt.encryptSensitiveInformation(user1.getAddresse()), false);*/
