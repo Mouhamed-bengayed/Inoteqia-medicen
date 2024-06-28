@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,15 @@ public class Utilisateur {
 
     private String Status ;
     private String token;
+    //affichage profile
+    private String lieu_deducation;
+    private Date date_de_naissance;
+    private String sexe;
+    private String image;
+    private String diplome;
+    private String descreption_Personelle ;
+    private String annee_dexperience;
+    ;
 
 
 
