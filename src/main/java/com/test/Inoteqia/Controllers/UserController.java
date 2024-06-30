@@ -24,7 +24,9 @@ UserServiceIMP userServiceIMP;
 UtilisateurRepository utilisateurRepository;
 @Autowired
     RoleRepository roleRepository;
-
+    @GetMapping("/getuserbyid/{id}")
+    public Utilisateur getUserById(@PathVariable("id") Long id) {
+        return userServiceIMP.getUserById(id);}
     @GetMapping("/list-user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public List<Utilisateur> ListUser() {
@@ -78,7 +80,10 @@ UtilisateurRepository utilisateurRepository;
     public Utilisateur GetUserByusername(@PathVariable("username")  String username) {
         return utilisateurRepository.findUtilisateurByUsername(username);
     }
-
+    @PutMapping("/update-user/")
+    public Utilisateur updateUser(@RequestBody Utilisateur utilisateur) {
+        return userServiceIMP.updateUser(utilisateur);
+    }
 
 
 }
