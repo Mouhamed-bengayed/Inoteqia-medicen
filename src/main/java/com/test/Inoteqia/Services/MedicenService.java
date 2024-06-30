@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 @Service
 public class MedicenService {
@@ -98,6 +99,9 @@ CryptDecrypt cryptDecrypt;
         user1.setMailvalid(false);
         user1.setStatus("En attente d'activation");
         user1.setBlockedByAdmin(false);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = formatter.format(new Date());
+        user1.setDate(formattedDate);
 
         Medecin suser = medecinRepository.save(user1);
 

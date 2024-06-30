@@ -48,7 +48,6 @@ public class Utilisateur {
         this.username = username;
         this.email = email;
         this.password = password;
-
         this.addresse = address;
 
 
@@ -57,8 +56,18 @@ public class Utilisateur {
     }
 
 
-
-
-
-
+    public Utilisateur(Long id, String name, String username, String email, String password, String number, String addresse, boolean blockedByAdmin, boolean mailvalid, String status, String token, Set<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.number = number;
+        this.addresse = addresse;
+        this.blockedByAdmin = blockedByAdmin;
+        this.mailvalid = mailvalid;
+        Status = status;
+        this.token = token;
+        this.roles = roles;
+    }
 }
