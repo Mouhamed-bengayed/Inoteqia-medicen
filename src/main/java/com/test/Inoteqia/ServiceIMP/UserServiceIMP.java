@@ -191,7 +191,22 @@ public class UserServiceIMP implements UserServiceInterface {
 
         }
     }
-
+    public Utilisateur updateUser(Utilisateur userInfo) {
+        Utilisateur user = utilisateurRepository.findById(userInfo.getId()).orElseThrow(() -> new IllegalArgumentException("User ID not Found"));
+        user.setName(userInfo.getName());
+        user.setUsername(userInfo.getUsername());
+        user.setEmail(userInfo.getEmail());
+        user.setNumber(userInfo.getNumber());
+        user.setAddresse(userInfo.getAddresse());
+        user.setLieu_deducation(userInfo.getLieu_deducation());
+        user.setDate_de_naissance(userInfo.getDate_de_naissance());
+        user.setSexe(userInfo.getSexe());
+        user.setImage(userInfo.getImage());
+        user.setDiplome(userInfo.getDiplome());
+        user.setDescreption_Personelle(userInfo.getDescreption_Personelle());
+        user.setAnnee_dexperience(userInfo.getAnnee_dexperience());
+        return utilisateurRepository.save(user);
+    }
 }
 
 

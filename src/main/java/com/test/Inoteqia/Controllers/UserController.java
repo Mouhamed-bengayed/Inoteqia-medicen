@@ -80,7 +80,10 @@ UtilisateurRepository utilisateurRepository;
     public Utilisateur GetUserByusername(@PathVariable("username")  String username) {
         return utilisateurRepository.findUtilisateurByUsername(username);
     }
-
+    @PutMapping("/update-user/")
+    public Utilisateur updateUser(@RequestBody Utilisateur utilisateur) {
+        return userServiceIMP.updateUser(utilisateur);
+    }
 
 
 }
