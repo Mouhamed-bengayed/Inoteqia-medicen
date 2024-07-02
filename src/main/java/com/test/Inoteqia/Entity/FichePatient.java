@@ -1,8 +1,10 @@
 package com.test.Inoteqia.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Data
@@ -158,5 +160,7 @@ public class FichePatient  {
     private Medecin medecin;
     @ManyToOne
     private Administrateur administrateur;
+
+
 
 }

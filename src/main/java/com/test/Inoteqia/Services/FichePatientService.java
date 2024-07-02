@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FichePatientService {
 
@@ -42,4 +44,9 @@ private AdministrateurRepository administrateurRepository;
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
+       public List<FichePatient> getAllPatient() throws Exception {
+       List<FichePatient> patients = fichePatientRepository.findAll();
+
+
+        return patients;}
 }
