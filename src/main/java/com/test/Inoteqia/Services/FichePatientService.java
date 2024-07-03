@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,9 +45,17 @@ private AdministrateurRepository administrateurRepository;
                 })
                 .orElse(ResponseEntity.notFound().build());
     }
-       public List<FichePatient> getAllPatient() throws Exception {
-       List<FichePatient> patients = fichePatientRepository.findAll();
+    public List<FichePatient> getAllPatient(Long id) throws Exception {
+        List<FichePatient> patients = new ArrayList<>();
 
+        // Check if id is for Administrateur or Medecin and fetch accordingly
+        if (id != null) {
+            patients.addAll(fichePatientRepository.findAllByAdministrateurId(id));
+            patients.addAll(fichePatientRepository.findAllByMedecinId(id));
+        } else {
+            throw new Exception("ID cannot be null");
+        }
 
-        return patients;}
+        return patients;
+    }
 }

@@ -1,10 +1,12 @@
 package com.test.Inoteqia.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
+@JsonIgnoreProperties(ignoreUnknown = true)
 
 @Entity
 @Data

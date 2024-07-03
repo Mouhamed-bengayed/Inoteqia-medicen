@@ -22,9 +22,9 @@ public class PatientController {
     UserServiceIMP userServiceIMP;
 @Autowired
     FichePatientService fichePatientService;
-    @GetMapping("/list-patient")
-    public List<FichePatient> ListPatient() throws Exception {
-        return fichePatientService.getAllPatient();
+    @GetMapping("/list-patient/{id}")
+    public List<FichePatient> ListPatient( @PathVariable Long id) throws Exception {
+        return fichePatientService.getAllPatient(id);
     }
   //  @DeleteMapping("/delete-patient/{idUser}")
  //   public void deletePatient(@PathVariable("idUser") Long idUser) {
