@@ -201,10 +201,11 @@ public class UserServiceIMP implements UserServiceInterface {
         user.setLieu_deducation(userInfo.getLieu_deducation());
         user.setDate_de_naissance(userInfo.getDate_de_naissance());
         user.setSexe(userInfo.getSexe());
-        user.setImage(userInfo.getImage());
         user.setDiplome(userInfo.getDiplome());
         user.setDescreption_Personelle(userInfo.getDescreption_Personelle());
         user.setAnnee_dexperience(userInfo.getAnnee_dexperience());
+        user.setSpecialite(userInfo.getSpecialite());
+
         return utilisateurRepository.save(user);
     }
 }
