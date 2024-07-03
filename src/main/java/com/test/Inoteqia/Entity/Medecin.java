@@ -17,7 +17,6 @@ public class Medecin extends Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String specialite;
 private String date;
     @OneToMany
     private List<FichePatient> FichePatients=new ArrayList<>();
@@ -25,7 +24,7 @@ private String date;
     public Medecin(Long id, String name, String username, String email, String password, String number, String addresse, boolean blockedByAdmin, boolean mailvalid, String status, String token, Set<Role> roles, Long id1, String specialite, String date,List<FichePatient> fichePatients) {
         super(id, name, username, email, password, number, addresse, blockedByAdmin, mailvalid, status, token, roles);
         this.id = id1;
-        this.specialite = specialite;
+        //this.specialite = specialite;
         this.date=date;
         FichePatients = fichePatients;
     }

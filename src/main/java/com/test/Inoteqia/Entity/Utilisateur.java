@@ -11,7 +11,9 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Data
 @AllArgsConstructor
@@ -37,10 +39,12 @@ public class Utilisateur {
     private Date date_de_naissance;
     private String sexe;
     private String image;
+    private String Coverture;
     private String diplome;
     private String descreption_Personelle ;
     private String annee_dexperience;
-    ;
+    ;    private String specialite;
+
 
 
 
