@@ -58,4 +58,7 @@ private AdministrateurRepository administrateurRepository;
 
         return patients;
     }
+    public FichePatient getPatientById(Long id) {
+        return fichePatientRepository.findById(id).orElse(null);
+    }
 }

@@ -24,4 +24,8 @@ FichePatientService patientService;
     public ResponseEntity<FichePatient> deletePatient(@PathVariable  Long id) throws Exception {
         return patientService.deletePatient(id);
     }
+@GetMapping(value = "/getPatientById/{id}")
+    public FichePatient getPatientById(@PathVariable Long id) {
+        return patientService.getPatientById(id);
+    }
 }
