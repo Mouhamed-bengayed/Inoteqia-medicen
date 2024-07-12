@@ -18,13 +18,14 @@ public class Consultations1Post_Immediat {
     private String  dissectomie_etage;
     private String  liberation_post_etage;
     private String  arthrodese_etage;
-
     private String  complications_per_operatoire;
     private String  complications_per_operatoire_auter;
-    private String  symptomatologie_Lombalgie;
-    private String  symptomatologie_Sciatique;
-    private String  symptomatologie_Cruralgie;
-    private String  symptomatologie_sphinctériens;
+
+    private String dissectomi;
+    private String liberation_post;
+    private String arthrodese;
+    private String trouble_vesico_sphincteriens;
+    private String trouble_vesico_sphincteriens_Incontinence_urinaire;
 
     private String examen_Post_Testing_musculaire_l2;
     private String examen_Post_Testing_musculaire_l3;
@@ -43,7 +44,7 @@ public class Consultations1Post_Immediat {
     private Medecin medecin;
 
 
-    public Consultations1Post_Immediat(String date_chirurgie, String date_suiui, String dissectomie_etage, String liberation_post_etage, String arthrodese_etage, String complications_per_operatoire, String complications_per_operatoire_auter, String symptomatologie_Lombalgie, String symptomatologie_Sciatique, String symptomatologie_Cruralgie, String symptomatologie_sphinctériens, String examen_Post_Testing_musculaire_l2, String examen_Post_Testing_musculaire_l3, String examen_Post_Testing_musculaire_l4, String examen_Post_Testing_musculaire_l5, String examen_Post_Testing_musculaire_s1, String examen_Post_Sensibilte_musculaire_l2, String examen_Post_Sensibilte_musculaire_l3, String examen_Post_Sensibilte_musculaire_l4, String examen_Post_Sensibilte_musculaire_l5, String examen_Post_Sensibilte_musculaire_s1, String examen_Post_Examen_perinee_sensibilite, String examen_Post_Examen_perinee_Tonus_anal, String examen_Post_Examen_perinee_Reflexe_anal) {
+    public Consultations1Post_Immediat(String date_chirurgie, String date_suiui, String dissectomie_etage, String liberation_post_etage, String arthrodese_etage, String complications_per_operatoire, String complications_per_operatoire_auter, String dissectomi, String liberation_post, String arthrodese, String trouble_vesico_sphincteriens, String examen_Post_Testing_musculaire_l2, String examen_Post_Testing_musculaire_l3, String examen_Post_Testing_musculaire_l4, String examen_Post_Testing_musculaire_l5, String examen_Post_Testing_musculaire_s1, String examen_Post_Sensibilte_musculaire_l2, String examen_Post_Sensibilte_musculaire_l3, String examen_Post_Sensibilte_musculaire_l4, String examen_Post_Sensibilte_musculaire_l5, String examen_Post_Sensibilte_musculaire_s1, String examen_Post_Examen_perinee_sensibilite, String examen_Post_Examen_perinee_Tonus_anal, String examen_Post_Examen_perinee_Reflexe_anal) {
         this.date_chirurgie = date_chirurgie;
         this.date_suiui = date_suiui;
         this.dissectomie_etage = dissectomie_etage;
@@ -51,10 +52,10 @@ public class Consultations1Post_Immediat {
         this.arthrodese_etage = arthrodese_etage;
         this.complications_per_operatoire = complications_per_operatoire;
         this.complications_per_operatoire_auter = complications_per_operatoire_auter;
-        this.symptomatologie_Lombalgie = symptomatologie_Lombalgie;
-        this.symptomatologie_Sciatique = symptomatologie_Sciatique;
-        this.symptomatologie_Cruralgie = symptomatologie_Cruralgie;
-        this.symptomatologie_sphinctériens = symptomatologie_sphinctériens;
+        this.dissectomi = dissectomi;
+        this.liberation_post = liberation_post;
+        this.arthrodese = arthrodese;
+        this.trouble_vesico_sphincteriens = trouble_vesico_sphincteriens;
         this.examen_Post_Testing_musculaire_l2 = examen_Post_Testing_musculaire_l2;
         this.examen_Post_Testing_musculaire_l3 = examen_Post_Testing_musculaire_l3;
         this.examen_Post_Testing_musculaire_l4 = examen_Post_Testing_musculaire_l4;

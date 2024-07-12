@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class Suivi_ttt_Dissect_Services {
 
@@ -16,6 +19,7 @@ public class Suivi_ttt_Dissect_Services {
     Suivi_ttt_Dissect_Repository suivi_ttt_dissect_repository;
 
     public ResponseEntity<Consultations_ttt_Dissect> registerSuivittt_Dissect(Consultations_ttt_Dissect p1) throws Exception {
+
         Consultations_ttt_Dissect suivi1Post_ttt= new Consultations_ttt_Dissect(
                 cryptDecrypt.encryptSensitiveInformation(p1.getDate_de_consultation()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getAge()),
@@ -27,7 +31,7 @@ public class Suivi_ttt_Dissect_Services {
                 cryptDecrypt.encryptSensitiveInformation(p1.getAtcd()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getTabac()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getEvolution()),
-                cryptDecrypt.encryptSensitiveInformation(p1.getEvolution_nouvelles_symptomatologies()),
+                cryptDecrypt.encryptListeSensitiveInformation(p1.getEvolution_nouvelles_symptomatologies()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getPoids()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getTaille()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getBMI()),

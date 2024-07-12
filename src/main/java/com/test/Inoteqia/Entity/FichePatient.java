@@ -1,8 +1,7 @@
 package com.test.Inoteqia.Entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -31,9 +30,17 @@ public class FichePatient  {
     private String adresse_par;
     private String statut_social;
     private String entourage_actuel;
-    private String atcd;
+    @ElementCollection
+    @CollectionTable(name = "patient_atcd", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "atcd")
+    private List<String> atcd;
+
     private String Tabac;
-    private String motif_de_consultation;
+    @ElementCollection
+    @CollectionTable(name = "patient_atcd", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "motif_de_consultation")
+    private List<String> motif_de_consultation;
+
     private String motif_de_consultation_l;
 
     private String aucn;
@@ -95,6 +102,10 @@ public class FichePatient  {
     private String vie_sexuelle;
     private String vie_sociale;
     private String voyage;
+    private String resultatodi;
+
+
+
     private String resultat;
     private String Hypothese_diagnostic_HD;
     private String Hypothese_diagnostic_type;
