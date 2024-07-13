@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -83,6 +84,11 @@ UtilisateurRepository utilisateurRepository;
     @PutMapping("/update-user/")
     public Utilisateur updateUser(@RequestBody Utilisateur utilisateur) {
         return userServiceIMP.updateUser(utilisateur);
+    }
+    @PostMapping("/userexists/{email}")
+    public ResponseEntity<Boolean> checkUserExists(@PathVariable("email") String email) {
+        boolean exists = userServiceIMP.userExists(email);
+        return ResponseEntity.ok(exists);
     }
 
 

@@ -41,7 +41,7 @@ public class FichePatient  {
     @Column(name = "motif_de_consultation")
     private List<String> motif_de_consultation;
 
-    private String motif_de_consultation_l;
+//    private String motif_de_consultation_l;
 
     private String aucn;
     private String date_debut_maladie;

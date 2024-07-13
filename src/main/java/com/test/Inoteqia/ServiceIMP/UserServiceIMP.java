@@ -207,6 +207,24 @@ public class UserServiceIMP implements UserServiceInterface {
 
         return utilisateurRepository.save(user);
     }
+    public Boolean userExists(String email) {
+        try {
+            Optional<Utilisateur> optionalUser = utilisateurRepository.findByEmail(email);
+            if (optionalUser.isPresent()) {
+                Utilisateur user = optionalUser.get();
+                user.setStatus("Demande de réactivation");
+                utilisateurRepository.save(user);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            // Log the exception or handle it as needed
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
 
 

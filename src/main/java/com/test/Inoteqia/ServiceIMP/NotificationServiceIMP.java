@@ -1,5 +1,6 @@
 package com.test.Inoteqia.ServiceIMP;
 
+import com.test.Inoteqia.Entity.GroupeMed;
 import com.test.Inoteqia.Entity.Notification;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Interfaces.NotificatinInterface;
@@ -43,7 +44,7 @@ public class NotificationServiceIMP implements NotificatinInterface {
         List<Notification> listNotifications = notificationRepository.findAll();
         List<Notification> userNotifications = new ArrayList<>();
         for (Notification notification : listNotifications){
-            for (Utilisateur recipient : notification.getRecipients()){
+            for (GroupeMed recipient : notification.getGroupeMeds()){
                 if (recipient.getId().equals(id)){
                     userNotifications.add(notification);
                     break;
