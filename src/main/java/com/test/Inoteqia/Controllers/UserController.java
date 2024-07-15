@@ -45,6 +45,11 @@ UtilisateurRepository utilisateurRepository;
         userServiceIMP.bloqueUser(idUser);
     }
 
+    @PutMapping("/Débloquer-user/{idUser}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public void Débloquer(@PathVariable("idUser") Long idUser) throws Exception {
+        userServiceIMP.Débloquer(idUser);
+    }
     @DeleteMapping("/delete-user/{idUser}")
     public void deleteAccount(@PathVariable("idUser") Long idUser) {
         userServiceIMP.deleteUser(idUser);
@@ -84,6 +89,10 @@ UtilisateurRepository utilisateurRepository;
     @PutMapping("/update-user/")
     public Utilisateur updateUser(@RequestBody Utilisateur utilisateur) {
         return userServiceIMP.updateUser(utilisateur);
+    }
+    @PutMapping("/reactive-user/{idUser}")
+    public void reactiveUser(@PathVariable("idUser") Long idUser) {
+        userServiceIMP.reactiveuser(idUser);
     }
     @PostMapping("/userexists/{email}")
     public ResponseEntity<Boolean> checkUserExists(@PathVariable("email") String email) {

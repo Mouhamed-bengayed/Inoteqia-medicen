@@ -51,7 +51,14 @@ public class UserServiceIMP implements UserServiceInterface {
 
     public List<Utilisateur> getUserByRoles(RoleName roleName){
         Role role= roleRepository.findByName(roleName).get();
-        return utilisateurRepository.findByRolesContains(role);
+        List<Utilisateur> users = utilisateurRepository.findByRolesContains(role);
+        List<Utilisateur> users1 = new ArrayList<>();
+        for(Utilisateur user : users){
+           if(user.isMailvalid()){
+                users1.add(user);
+           }
+        }
+        return users1;
     }
 
     public Utilisateur deleteUser(Long id) {
@@ -69,20 +76,40 @@ public class UserServiceIMP implements UserServiceInterface {
         Utilisateur user1 = user.get();
         String Newligne = System.getProperty("line.separator");
         String body = "compte bloque\n  use this link to verify your account is :" + Newligne ;
-        String ms=cryptDecrypt.decryptSensitiveInformation(user1.getEmail());
+//        String ms=cryptDecrypt.decryptSensitiveInformation(user1.getEmail());
+        String ms=user1.getEmail();
 
         if (user.isPresent()) {
 
-            user1.setMailvalid(false);
+            user1.setBlockedByAdmin(true);
+            user1.setStatus("compte est bloqué");
+
             this.utilisateurRepository.save(user1);
             try {
-                mailSending.send(ms, "bloque ", body);
+                mailSending.send(ms, "bloquage du compte ", body);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
         }
     }
+    public void Débloquer(Long id) {
+        Optional<Utilisateur> user = utilisateurRepository.findById(id);
+        Utilisateur user1 = user.get();
+        String Newligne = System.getProperty("line.separator");
+//        String url = "http://localhost:4200/auth/verification/" + user1.getToken();
+        String body = "Soyez le bienvenue une autre fois  "+ Newligne+"  Votre compte est maintenant débloqué  vous pouvez consulter une autre fois votre espace sur le plateforme"+ Newligne ;
+        if (user.isPresent()) {
 
+            user1.setStatus("compte est activé");
+            user1.setBlockedByAdmin(false);
+            this.utilisateurRepository.save(user1);
+            try {
+                mailSending.send(user1.getEmail(), "bienvenue ce compte est débloqué" + user1.getUsername(), body);
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 
 
     public void validInscription(Long id) {
@@ -93,10 +120,11 @@ public class UserServiceIMP implements UserServiceInterface {
         String body = "Soyez le bienvenue dans notre platforme  "+ Newligne+"  Votre compte est maintenant activé vous pouvez consulter votre espace sur le plateforme"+ Newligne ;
         if (user.isPresent()) {
 
-            user1.setStatus("compte activé");
+            user1.setStatus("compte est activé");
+            user1.setValidtologin(true);
             this.utilisateurRepository.save(user1);
             try {
-                mailSending.send(user1.getEmail(), "Welcome" + user1.getUsername(), body);
+                mailSending.send(user1.getEmail(), "oyez le bienvenue dans notre platforme" + user1.getUsername(), body);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -212,7 +240,7 @@ public class UserServiceIMP implements UserServiceInterface {
             Optional<Utilisateur> optionalUser = utilisateurRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
                 Utilisateur user = optionalUser.get();
-                user.setStatus("Demande de réactivation");
+                user.setStatus("demande de réactivation");
                 utilisateurRepository.save(user);
                 return true;
             } else {
@@ -222,6 +250,18 @@ public class UserServiceIMP implements UserServiceInterface {
             // Log the exception or handle it as needed
             e.printStackTrace();
             return false;
+        }
+    }
+    public Utilisateur reactiveuser(Long id) {
+        Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
+        if (utilisateur.isPresent()) {
+            Utilisateur user = utilisateur.get();
+            user.setBlockedByAdmin(false);
+            user.setValidtologin(true);
+            user.setStatus("compte réactivé");
+            return utilisateurRepository.save(user);
+        } else {
+            return null;
         }
     }
 

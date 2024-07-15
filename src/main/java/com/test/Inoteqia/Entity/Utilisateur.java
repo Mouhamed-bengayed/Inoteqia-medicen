@@ -13,11 +13,12 @@ import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+//@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,6 +32,7 @@ public class Utilisateur {
     private boolean blockedByAdmin;
 
     private boolean mailvalid;
+    private boolean validtologin;
 
     private String Status ;
     private String token;

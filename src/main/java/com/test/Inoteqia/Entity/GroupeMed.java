@@ -17,9 +17,14 @@ public class GroupeMed {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Date Date;
-    private String Description;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date date;
+
+    private String titre;
+    private String description;
+
     @OneToMany
-    private List<Medecin> medecins=new ArrayList<>();
+    private List<Medecin> medecins = new ArrayList<>();
+
 
 }
