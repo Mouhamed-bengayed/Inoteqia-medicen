@@ -23,6 +23,7 @@ public class Notification {
     private String title;
     private String message;
     private String rappel;
+    private String file;
 
     @OneToMany
     private List<GroupeMed> groupeMeds=new ArrayList<>();

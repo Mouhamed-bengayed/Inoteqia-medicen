@@ -1,5 +1,6 @@
 package com.test.Inoteqia.Controllers;
 
+import com.test.Inoteqia.DTO.NotifDTO;
 import com.test.Inoteqia.Entity.Notification;
 import com.test.Inoteqia.Interfaces.NotificatinInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ public class NotificationController {
     @Autowired
     com.test.Inoteqia.Interfaces.NotificatinInterface NotificatinInterface;
     @PostMapping("/createNotification")
-    public Notification createNotification(@RequestBody Notification notification) {
+    public Notification createNotification(@RequestBody NotifDTO notification) {
         return NotificatinInterface.createNotification(notification);
     }
     @GetMapping("/getNotification/{id}")

@@ -3,6 +3,7 @@ package com.test.Inoteqia.Services;
 import com.test.Inoteqia.DTO.GrpMedDTO;
 import com.test.Inoteqia.Entity.GroupeMed;
 import com.test.Inoteqia.Entity.Medecin;
+import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Reposotories.GroupeMedReposotory;
 import com.test.Inoteqia.Reposotories.MedecinRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ public class GroupeMedService {
     private GroupeMedReposotory groupeMedReposotory;
     @Autowired
     private MedecinRepository medecinRepository;
+
 
     public void deleteGroupeMed(Long id){
         groupeMedReposotory.deleteById(id);
@@ -44,5 +46,31 @@ public class GroupeMedService {
     public List<GroupeMed> getAllGroupeMed(){
 
         return groupeMedReposotory.findAll();
+    }
+    public List<Medecin>showlistmeds(Long id){
+
+        return groupeMedReposotory.findById(id).get().getMedecins();
+    }
+    public GroupeMed updateGroupeMed (GrpMedDTO grp ,Long id)
+    {
+        GroupeMed groupeMed = groupeMedReposotory.findById(id).get();
+        if(grp.getTitre()!=null){
+            groupeMed.setTitre(grp.getTitre());
+        }
+        if(grp.getDescription()!=null){
+            groupeMed.setDescription(grp.getDescription());
+        }
+        List<Long> medecinsIds = grp.getMedecins();
+        for(Long medId:medecinsIds)
+        {
+            Medecin medecin=medecinRepository.findById(medId).get();
+            if(!groupeMed.getMedecins().contains(medecin))
+            {
+                groupeMed.getMedecins().add(medecin);
+
+            }
+        }
+        return groupeMedReposotory.save(groupeMed);
+
     }
 }

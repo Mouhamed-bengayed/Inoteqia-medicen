@@ -2,6 +2,7 @@ package com.test.Inoteqia.Controllers;
 
 import com.test.Inoteqia.DTO.GrpMedDTO;
 import com.test.Inoteqia.Entity.GroupeMed;
+import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Services.GroupeMedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,5 +29,13 @@ public class GroupeMedController {
 @GetMapping("/list-groupeMed")
     public List<GroupeMed> getAllGroupeMed() {
        return groupeMedService.getAllGroupeMed();
+    }
+@GetMapping("/show-list-meds/{id}")
+    public List<Medecin> showlistmeds(@PathVariable Long id) {
+        return groupeMedService.showlistmeds(id);
+    }
+@PutMapping("/modifmed/{id}")
+    public GroupeMed updateGroupeMed(@RequestBody GrpMedDTO groupeMed, @PathVariable Long id) {
+        return groupeMedService.updateGroupeMed(groupeMed,id);
     }
 }

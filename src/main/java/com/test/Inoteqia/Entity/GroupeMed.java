@@ -23,7 +23,7 @@ public class GroupeMed {
     private String titre;
     private String description;
 
-    @OneToMany
+    @ManyToMany
     private List<Medecin> medecins = new ArrayList<>();
 
 
