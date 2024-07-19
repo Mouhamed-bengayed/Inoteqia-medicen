@@ -240,7 +240,7 @@ public class UserServiceIMP implements UserServiceInterface {
             Optional<Utilisateur> optionalUser = utilisateurRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
                 Utilisateur user = optionalUser.get();
-                user.setStatus("demande de réactivation");
+                user.setStatus("En attente de réactivation");
                 utilisateurRepository.save(user);
                 return true;
             } else {

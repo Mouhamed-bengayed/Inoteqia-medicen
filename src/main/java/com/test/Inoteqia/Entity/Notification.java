@@ -25,6 +25,6 @@ public class Notification {
     private String rappel;
     private String file;
 
-    @OneToMany
+    @ManyToMany
     private List<GroupeMed> groupeMeds=new ArrayList<>();
 }
