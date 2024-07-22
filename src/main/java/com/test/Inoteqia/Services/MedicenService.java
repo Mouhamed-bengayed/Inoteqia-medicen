@@ -99,6 +99,7 @@ CryptDecrypt cryptDecrypt;
         user1.setMailvalid(false);
         user1.setStatus("En attente de validation");
         user1.setBlockedByAdmin(false);
+        user1.setAskForReactivation(false);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = formatter.format(new Date());
         user1.setDate(formattedDate);

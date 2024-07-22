@@ -241,6 +241,7 @@ public class UserServiceIMP implements UserServiceInterface {
             if (optionalUser.isPresent()) {
                 Utilisateur user = optionalUser.get();
                 user.setStatus("En attente de réactivation");
+                user.setAskForReactivation(true);
                 utilisateurRepository.save(user);
                 return true;
             } else {
@@ -258,6 +259,7 @@ public class UserServiceIMP implements UserServiceInterface {
             Utilisateur user = utilisateur.get();
             user.setBlockedByAdmin(false);
             user.setValidtologin(true);
+            user.setAskForReactivation(false);
             user.setStatus("compte réactivé");
             return utilisateurRepository.save(user);
         } else {

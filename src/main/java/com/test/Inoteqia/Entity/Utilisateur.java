@@ -33,7 +33,7 @@ public class Utilisateur {
 
     private boolean mailvalid;
     private boolean validtologin;
-
+    private boolean AskForReactivation;
     private String Status ;
     private String token;
     //affichage profile

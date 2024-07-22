@@ -60,7 +60,7 @@ public class AuthRestAPIs {
         Optional<Utilisateur> userByUsername = userRepository.findByUsername(login.getEmail());
         Optional<Utilisateur> user = userByEmail.isPresent() ? userByEmail : userByUsername;
 
-        if (!user.get().isMailvalid() || user.get().isBlockedByAdmin() || !user.get().isValidtologin()) {
+        if (!user.get().isMailvalid() || user.get().isBlockedByAdmin() || !user.get().isValidtologin() || user.get().isAskForReactivation()) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
