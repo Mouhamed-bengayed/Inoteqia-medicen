@@ -3,9 +3,12 @@ package com.test.Inoteqia.Services;
 import com.test.Inoteqia.DTO.GrpMedDTO;
 import com.test.Inoteqia.Entity.GroupeMed;
 import com.test.Inoteqia.Entity.Medecin;
+import com.test.Inoteqia.Entity.Notification;
 import com.test.Inoteqia.Entity.Utilisateur;
+import com.test.Inoteqia.Exception.ResourceNotFoundException;
 import com.test.Inoteqia.Reposotories.GroupeMedReposotory;
 import com.test.Inoteqia.Reposotories.MedecinRepository;
+import com.test.Inoteqia.Reposotories.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,24 @@ public class GroupeMedService {
     private GroupeMedReposotory groupeMedReposotory;
     @Autowired
     private MedecinRepository medecinRepository;
+    @Autowired
+    private NotificationRepository notificationRepository;
 
 
-    public void deleteGroupeMed(Long id){
-        groupeMedReposotory.deleteById(id);
+    public void deleteGroupeMed(Long id) {
+        GroupeMed groupeMed = groupeMedReposotory.findById(id).orElseThrow(() -> new ResourceNotFoundException("GroupeMed not found"));
+
+        // Get all notifications associated with the GroupeMed
+        List<Notification> notifications = notificationRepository.findAllByGroupeMedsContains(groupeMed);
+
+        // Remove the GroupeMed from each notification and save the notification
+        for (Notification notification : notifications) {
+            notification.getGroupeMeds().remove(groupeMed);
+            notificationRepository.save(notification);
+        }
+
+        // Now it's safe to delete the GroupeMed
+        groupeMedReposotory.delete(groupeMed);
     }
     public void addGroupeMed(GrpMedDTO groupeMed){
         GroupeMed groupeMed1 = new GroupeMed();

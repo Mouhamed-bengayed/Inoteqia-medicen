@@ -50,7 +50,7 @@ private AdministrateurRepository administrateurRepository;
 
         // Check if id is for Administrateur or Medecin and fetch accordingly
         if (id != null) {
-            patients.addAll(fichePatientRepository.findAllByAdministrateurId(id));
+//            patients.addAll(fichePatientRepository.findAllByAdministrateurId(id));
             patients.addAll(fichePatientRepository.findAllByMedecinId(id));
         } else {
             throw new Exception("ID cannot be null");

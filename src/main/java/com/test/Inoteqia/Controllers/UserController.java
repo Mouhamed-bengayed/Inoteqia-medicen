@@ -1,6 +1,7 @@
 package com.test.Inoteqia.Controllers;
 import com.test.Inoteqia.DTO.ResetPass;
 import com.test.Inoteqia.DTO.RoleName;
+import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Role;
 import com.test.Inoteqia.Entity.Utilisateur;
 import com.test.Inoteqia.Reposotories.RoleRepository;
@@ -24,7 +25,7 @@ UserServiceIMP userServiceIMP;
 @Autowired
 UtilisateurRepository utilisateurRepository;
 @Autowired
-    RoleRepository roleRepository;
+RoleRepository roleRepository;
     @GetMapping("/getuserbyid/{id}")
     public Utilisateur getUserById(@PathVariable("id") Long id) {
         return userServiceIMP.getUserById(id);}
@@ -99,6 +100,11 @@ UtilisateurRepository utilisateurRepository;
         boolean exists = userServiceIMP.userExists(email);
         return ResponseEntity.ok(exists);
     }
-
-
+@PutMapping("/reactiveMedAcoount/{id}")
+public Medecin reactiveuserMed(@PathVariable Long id){
+    return userServiceIMP.reactiveuserMed(id);
+}
+@PutMapping("/AffctAdmintoMed/{idMed}/{idAdmin}")
+public Medecin AffctAdmintoMed(@PathVariable ("idMed")Long id,@PathVariable ("idAdmin")Long idAdmin){
+    return userServiceIMP.AffctAdmintoMed(id,idAdmin);}
 }

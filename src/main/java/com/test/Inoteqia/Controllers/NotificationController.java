@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/Notification")
 public class NotificationController {
     @Autowired
-    com.test.Inoteqia.Interfaces.NotificatinInterface NotificatinInterface;
+    NotificatinInterface NotificatinInterface;
     @PostMapping("/createNotification")
     public Notification createNotification(@RequestBody NotifDTO notification) {
         return NotificatinInterface.createNotification(notification);
@@ -33,4 +33,8 @@ public class NotificationController {
     public List<Notification> getNotificationByuser(@PathVariable ("id") Long id) {
         return NotificatinInterface.getNotificationByuser(id);
     }
+//    @GetMapping("/getNotificationByAdmin/{id}")
+//    public List<Notification> getNotificationByAdmin(@PathVariable ("id") Long id) {
+//        return NotificatinInterface.getNotificationforAdmin(id);
+//    }
 }

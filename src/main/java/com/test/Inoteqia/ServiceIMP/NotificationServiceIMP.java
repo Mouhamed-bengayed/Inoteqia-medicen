@@ -77,4 +77,8 @@ public class NotificationServiceIMP implements NotificatinInterface {
     public List<Notification> getNotificationByuser(Long id) {
         return notificationRepository.findNotificationsByUserId(id);
     }
+//    @Override
+//    public  List<Notification> getNotificationforAdmin(Long id){
+//        return notificationRepository.findAllByAdministrateursContains(id);
+//    }
 }

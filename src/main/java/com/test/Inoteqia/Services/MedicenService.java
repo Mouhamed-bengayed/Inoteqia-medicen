@@ -97,7 +97,7 @@ CryptDecrypt cryptDecrypt;
         roles.add(userRole);
         user1.setRoles(roles);
         user1.setMailvalid(false);
-        user1.setStatus("En attente de validation");
+        user1.setStatus("en attente de validation");
         user1.setBlockedByAdmin(false);
         user1.setAskForReactivation(false);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -122,7 +122,7 @@ CryptDecrypt cryptDecrypt;
             String ms=user1.getEmail();
 
             try {
-                mailSending.send(ms, "Welcome" + user1.getName(), htmlMessage);
+                mailSending.send(ms, "Bienvenue" + user1.getName(), htmlMessage);
                 return new ResponseEntity<Medecin>(user1 ,HttpStatus.OK);
             } catch (Exception e) {
                 System.out.println(e.getMessage());

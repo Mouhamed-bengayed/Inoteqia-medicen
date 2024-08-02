@@ -2,6 +2,7 @@ package com.test.Inoteqia.Interfaces;
 
 
 import com.test.Inoteqia.DTO.RoleName;
+import com.test.Inoteqia.Entity.Medecin;
 import com.test.Inoteqia.Entity.Utilisateur;
 import javax.validation.Valid;
 
@@ -40,4 +41,5 @@ public interface UserServiceInterface {
 
     public Optional<Utilisateur> getCurrentUser() ;
 
+    Medecin AffctAdmintoMed(Long id, Long idAdmin);
 }

@@ -3,12 +3,10 @@ package com.test.Inoteqia.ServiceIMP;
 
 import com.test.Inoteqia.DTO.ResetPass;
 import com.test.Inoteqia.DTO.RoleName;
-import com.test.Inoteqia.Entity.Role;
-import com.test.Inoteqia.Entity.Utilisateur;
+import com.test.Inoteqia.Entity.*;
 import com.test.Inoteqia.Interfaces.OTPInterface;
 import com.test.Inoteqia.Interfaces.UserServiceInterface;
-import com.test.Inoteqia.Reposotories.RoleRepository;
-import com.test.Inoteqia.Reposotories.UtilisateurRepository;
+import com.test.Inoteqia.Reposotories.*;
 import com.test.Inoteqia.Services.CryptDecrypt;
 import com.test.Inoteqia.Services.MailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +27,8 @@ public class UserServiceIMP implements UserServiceInterface {
     @Autowired
     UtilisateurRepository utilisateurRepository;
     @Autowired
+    AdministrateurRepository administrateurRepository;
+    @Autowired
     MailSenderService mailSending;
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -39,7 +39,10 @@ public class UserServiceIMP implements UserServiceInterface {
     @Autowired
     OTPInterface otpInterface;
 
-
+    @Autowired
+    MedecinRepository medecinRepository;
+    @Autowired
+    NotificationRepository notificationRepository;
     public List<Utilisateur> getAllUser() {
         return utilisateurRepository.findAll();
     }
@@ -82,7 +85,7 @@ public class UserServiceIMP implements UserServiceInterface {
         if (user.isPresent()) {
 
             user1.setBlockedByAdmin(true);
-            user1.setStatus("compte est bloqué");
+            user1.setStatus("bloqué");
 
             this.utilisateurRepository.save(user1);
             try {
@@ -100,7 +103,7 @@ public class UserServiceIMP implements UserServiceInterface {
         String body = "Soyez le bienvenue une autre fois  "+ Newligne+"  Votre compte est maintenant débloqué  vous pouvez consulter une autre fois votre espace sur le plateforme"+ Newligne ;
         if (user.isPresent()) {
 
-            user1.setStatus("compte est activé");
+            user1.setStatus("activé");
             user1.setBlockedByAdmin(false);
             this.utilisateurRepository.save(user1);
             try {
@@ -120,11 +123,11 @@ public class UserServiceIMP implements UserServiceInterface {
         String body = "Soyez le bienvenue dans notre platforme  "+ Newligne+"  Votre compte est maintenant activé vous pouvez consulter votre espace sur le plateforme"+ Newligne ;
         if (user.isPresent()) {
 
-            user1.setStatus("compte est activé");
+            user1.setStatus("activé");
             user1.setValidtologin(true);
             this.utilisateurRepository.save(user1);
             try {
-                mailSending.send(user1.getEmail(), "oyez le bienvenue dans notre platforme" + user1.getUsername(), body);
+                mailSending.send(user1.getEmail(), "Soyez le bienvenue dans notre platforme" + user1.getUsername(), body);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
@@ -158,6 +161,9 @@ public class UserServiceIMP implements UserServiceInterface {
         }
         return utilisateurRepository.findByUsername(username);
     }
+
+
+
     public ResponseEntity<?> userforgetpassword(String email) {
         Optional<Utilisateur> user = utilisateurRepository.findByEmail(email);
         if (user.isPresent()) {
@@ -240,7 +246,7 @@ public class UserServiceIMP implements UserServiceInterface {
             Optional<Utilisateur> optionalUser = utilisateurRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
                 Utilisateur user = optionalUser.get();
-                user.setStatus("En attente de réactivation");
+                user.setStatus("en attente de réactivation");
                 user.setAskForReactivation(true);
                 utilisateurRepository.save(user);
                 return true;
@@ -257,16 +263,52 @@ public class UserServiceIMP implements UserServiceInterface {
         Optional<Utilisateur> utilisateur = utilisateurRepository.findById(id);
         if (utilisateur.isPresent()) {
             Utilisateur user = utilisateur.get();
+
             user.setBlockedByAdmin(false);
             user.setValidtologin(true);
             user.setAskForReactivation(false);
-            user.setStatus("compte réactivé");
+            user.setStatus("réactivé");
             return utilisateurRepository.save(user);
         } else {
             return null;
         }
     }
-
+    public Medecin reactiveuserMed(Long id) {
+        Optional<Medecin> medecin = medecinRepository.findById(id);
+        if (medecin.isPresent()) {
+            Medecin user = medecin.get();
+            Notification notification = new Notification();
+            notification.setDate(new Date());
+            notification.setTitle("Demande de ractivation du compte de Dr " + user.getUsername());
+            notification.setMessage(" Dr " + user.getUsername()+" a demandé la réactivation de son compte une autre fois." +
+                    "Si vous êtes d'accord," + " veuillez cliquer sur le bouton ci-dessous  (réactivater) pour réactiver de " +
+                    "nouveau son compte.");
+//            user.getAdministrateurs().forEach(admin->{
+//               notification.getAdministrateurs().add(admin);
+//            });
+            notificationRepository.save(notification);
+            user.setBlockedByAdmin(false);
+            user.setValidtologin(true);
+            user.setAskForReactivation(false);
+            user.setStatus("réactivé");
+            return medecinRepository.save(user);
+        } else {
+            return null;
+        }
+    }
+    @Override
+    public Medecin AffctAdmintoMed(Long id, Long idAdmin) {
+        Optional<Utilisateur> medecin = utilisateurRepository.findById(id);
+        Optional<Utilisateur> admin = utilisateurRepository.findById(idAdmin);
+        if (medecin.isPresent() && admin.isPresent()) {
+            Medecin med =(Medecin) medecin.get();
+            Administrateur adm = (Administrateur) admin.get();
+//            med.getAdministrateurs().add(adm);
+            return utilisateurRepository.save(med);
+        } else {
+            return null;
+        }
+    }
 }
 
 

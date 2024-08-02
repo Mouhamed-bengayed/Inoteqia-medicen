@@ -1,4 +1,5 @@
 package com.test.Inoteqia.Reposotories;
+import com.test.Inoteqia.Entity.GroupeMed;
 import com.test.Inoteqia.Entity.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -12,4 +13,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 
     @Query("SELECT n FROM Notification n JOIN n.groupeMeds gm JOIN gm.medecins m WHERE m.id = :id")
     List<Notification> findNotificationsByUserId(@Param("id") Long id);
+
+//    List<Notification> findAllByAdministrateursContains(Long id);
+List<Notification> findAllByGroupeMedsContains(GroupeMed groupeMed);
 }
