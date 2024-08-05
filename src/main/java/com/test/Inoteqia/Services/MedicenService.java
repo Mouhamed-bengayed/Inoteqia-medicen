@@ -101,8 +101,8 @@ CryptDecrypt cryptDecrypt;
         user1.setBlockedByAdmin(false);
         user1.setAskForReactivation(false);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = formatter.format(new Date());
-        user1.setDate(formattedDate);
+//        String formattedDate = formatter.format(new Date());
+        user1.setDate( new Date());
 
         Medecin suser = medecinRepository.save(user1);
 
