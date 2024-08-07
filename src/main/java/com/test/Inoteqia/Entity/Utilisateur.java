@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-//@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Data
 @AllArgsConstructor
@@ -47,6 +47,7 @@ public class Utilisateur {
     private String annee_dexperience;
     ;    private String specialite;
 
+    private java.util.Date date;
 
 
 
