@@ -25,7 +25,8 @@ public class StafffServices {
                 cryptDecrypt.encryptSensitiveInformation(p1.getIndication_Reeducation_Nbreseances()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getIndication_Dissectomie_etage()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getIndication_Liberation_etage()),
-                cryptDecrypt.encryptSensitiveInformation(p1.getIndication_Arthrodese()),
+               cryptDecrypt.encryptListeSensitiveInformation(p1.getIndication_Arthrodese()),
+                cryptDecrypt.encryptSensitiveInformation(p1.getAutreindication_Arthrodese()),
                 cryptDecrypt.encryptSensitiveInformation(p1.getConclusion())
         );
 
