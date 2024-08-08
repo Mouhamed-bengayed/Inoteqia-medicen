@@ -4,7 +4,10 @@ package com.test.Inoteqia.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 
 @Entity
@@ -173,7 +176,22 @@ public class FichePatient  {
     private Medecin medecin;
     @ManyToOne
     private Administrateur administrateur;
+// In FichePatient.java
 
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+
+    private List<Consultations1Post_Immediat> consultations1PostImmediats=new ArrayList<>();
+
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+
+    private List<Consultations_ttt_Dissect> consultationsTttDissects=new ArrayList<>();
+
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+
+    private List<ConsultationsArthrodese> consultationsArthrodeses=new ArrayList<>();
     public FichePatient() {
     }
 
