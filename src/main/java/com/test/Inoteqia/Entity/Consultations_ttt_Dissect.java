@@ -22,6 +22,9 @@ public class Consultations_ttt_Dissect {
     private String statut_social;
     private String entourage_actuel;
     private String atcd;
+    private String atcd_depuis;
+    private String atcd_jour;
+    private String atcd_annee;
     private String tabac;
     private String evolution;
     @ElementCollection

@@ -17,12 +17,40 @@ public class ConsultationsArthrodese  {
     private String addresse;
     private String telephone;
     private String profession;
+    private String profession_autre;
     private String statut_social;
     private String entourage_actuel;
-    private String atcd;
     private String tabac;
     private String evolution;
     private String evolution_nouvelles_symptomatologies;
+
+    private String lombalgie_type ;
+    private String lombalgie_intensity ;
+    private String lombalgie_mode ;
+    private String lombalgie_volution ;
+    private String lombalgie_response ;
+    private String sciatique_localisation ;
+    private String sciatique_cote ;
+    private String sciatique_intensity ;
+    private String sciatique_mode ;
+    private String sciatique_volution ;
+    private String sciatique_response ;
+    private String cruralgie_localisation ;
+    private String cruralgie_cote ;
+    private String cruralgie_intensity ;
+    private String cruralgie_mode ;
+    private String cruralgie_volution ;
+    private String cruralgie_response ;
+    private String claudication_type ;
+    private String claudication_cote ;
+    private String derobement_type ;
+    private String derobement_cote ;
+    private String trouble_sphincteriens;
+    private String trouble_sphincteriens_urinaire;
+    private String pm;
+    private String pm_distance;
+    private String pm_cause_arret;
+
 
 
     private String poids;
@@ -138,16 +166,16 @@ public class ConsultationsArthrodese  {
     private Medecin medecin;
 
 
-
-    public ConsultationsArthrodese(String date_de_consultation, String age, String addresse, String telephone, String profession, String statut_social, String entourage_actuel, String atcd, String tabac, String evolution, String evolution_nouvelles_symptomatologies, String poids, String taille, String bMI, String deformation_rachidienne, String douleur_pression_lombairer_epineuses, String amelioration_flexion_rachis, String contracture_muscles_paravertebraux, String dMS, String sonnette, String sonnette_Niveau, String lasegue, String lasegue_controlateral, String leri, String indice_shober, String rOT_rotulien, String rOT_achillien, String rOT_perinee, String marche_talons, String marche_pointes_pieds, String testing_musculaire_L2, String testing_musculaire_L3, String testing_musculaire_L4, String testing_musculaire_L5, String testing_musculaire_S1, String sensibilte_L2, String sensibilte_L3, String sensibilte_L4, String sensibilte_L5, String sensibilte_S1, String examen_perinee_sensibilite, String examen_perinee_Tonus_anal, String examen_perinee_Reflexe_anal, String intensite_douleur, String soins_personnels, String levee, String marche, String assis, String debout, String sommeil, String vie_sexuelle, String vie_sociale, String voyage, String resultat, String hypothese_diagnostic_HD, String hypothese_diagnostic_type, String hypothese_diagnostic_Localisation, String traitement_propose, String traitement_propose_Nbre_infiltrations, String traitement_propose_Nbre_seances, String traitement_propose_Type_chirurgie, String traitement_propose_Auter, String rx_Standard, String rx_Standard_qualite, String pincement_discal, String pincement_discal_etage, String pincement_discal_Pourcentage, String vide_discal, String vide_discal_etage, String sPDL, String sPDL_etage, String sPDL_Grade, String anomalie_transitionnelle, String canal_lombaire_etroit, String lordose_Lombaire, String incidence_pelvienne, String pente_sacree, String version_perlvienne, String rx_dynamique, String rx_dynamique_qualite, String rx_dynamique_Instabilite, String tDM, String tDM_pincement_discal, String tDM_pincement_discal_etage, String tDM_pincement_discal_pourcentage, String tDM_vide_discal, String tDM_vide_discal_etage, String tDM_vide_discal_Pourcentage, String tDM_hernie_discale, String tDM_hernie_discale_type, String tDM_hernie_discale_etage, String tDM_sPDL, String tDM_sPDL_etage, String tDM_sPDL_grade, String tDM_instabilite, String tDM_instabilite_etage, String tDM_apophysaire, String tDM_apophysaire_etage, String tDM_anomalie_transitionnelle, String tDM_canal_lombaire_etroit, String iRM, String iRM_pincementdiscal, String iRM_pincementdiscal_etage, String iRM_pincementdiscal_Pourcentage, String iRM_herniediscale, String iRM_herniediscale_etage, String iRM_herniediscale_Type, String iRM_hypertrophie_jaunes, String iRM_arthrose_apophysaire, String iRM_arthrose_apophysaire_etage, String iRM_canal_lombaire_etroit, String iRM_volume_disque_hernie, String iRM_etat_disques_sous_jacent, String iRM_etat_disques_sus_jacent) {
+    public ConsultationsArthrodese(String date_de_consultation, String age, String addresse, String telephone, String profession, String profession_autre, String statut_social, String entourage_actuel, String tabac, String evolution, String evolution_nouvelles_symptomatologies, String poids, String taille, String bMI, String deformation_rachidienne, String douleur_pression_lombairer_epineuses, String amelioration_flexion_rachis, String contracture_muscles_paravertebraux, String dMS, String sonnette, String sonnette_Niveau, String lasegue, String lasegue_controlateral, String leri, String indice_shober, String rOT_rotulien, String rOT_achillien, String rOT_perinee, String marche_talons, String marche_pointes_pieds, String testing_musculaire_L2, String testing_musculaire_L3, String testing_musculaire_L4, String testing_musculaire_L5, String testing_musculaire_S1, String sensibilte_L2, String sensibilte_L3, String sensibilte_L4, String sensibilte_L5, String sensibilte_S1, String examen_perinee_sensibilite, String examen_perinee_Tonus_anal, String examen_perinee_Reflexe_anal, String intensite_douleur, String soins_personnels, String levee, String marche, String assis, String debout, String sommeil, String vie_sexuelle, String vie_sociale, String voyage, String resultat, String hypothese_diagnostic_HD, String hypothese_diagnostic_type, String hypothese_diagnostic_Localisation, String traitement_propose, String traitement_propose_Nbre_infiltrations, String traitement_propose_Nbre_seances, String traitement_propose_Type_chirurgie, String traitement_propose_Auter, String rx_Standard, String rx_Standard_qualite, String pincement_discal, String pincement_discal_etage, String pincement_discal_Pourcentage, String vide_discal, String vide_discal_etage, String sPDL, String sPDL_etage, String sPDL_Grade, String anomalie_transitionnelle, String canal_lombaire_etroit, String lordose_Lombaire, String incidence_pelvienne, String pente_sacree, String version_perlvienne, String rx_dynamique, String rx_dynamique_qualite, String rx_dynamique_Instabilite, String tDM, String tDM_pincement_discal, String tDM_pincement_discal_etage, String tDM_pincement_discal_pourcentage, String tDM_vide_discal, String tDM_vide_discal_etage, String tDM_vide_discal_Pourcentage, String tDM_hernie_discale, String tDM_hernie_discale_type, String tDM_hernie_discale_etage, String tDM_sPDL, String tDM_sPDL_etage, String tDM_sPDL_grade, String tDM_instabilite, String tDM_instabilite_etage, String tDM_apophysaire, String tDM_apophysaire_etage, String tDM_anomalie_transitionnelle, String tDM_canal_lombaire_etroit, String tDM_qualite_fusion, String iRM, String iRM_pincementdiscal, String iRM_pincementdiscal_etage, String iRM_pincementdiscal_Pourcentage, String iRM_herniediscale, String iRM_herniediscale_etage, String iRM_herniediscale_Type, String iRM_hypertrophie_jaunes, String iRM_arthrose_apophysaire, String iRM_arthrose_apophysaire_etage, String iRM_canal_lombaire_etroit, String iRM_volume_disque_hernie, String iRM_etat_disques_sous_jacent) {
+        this.id = id;
         this.date_de_consultation = date_de_consultation;
         this.age = age;
         this.addresse = addresse;
         this.telephone = telephone;
         this.profession = profession;
+        this.profession_autre = profession_autre;
         this.statut_social = statut_social;
         this.entourage_actuel = entourage_actuel;
-        this.atcd = atcd;
         this.tabac = tabac;
         this.evolution = evolution;
         this.evolution_nouvelles_symptomatologies = evolution_nouvelles_symptomatologies;
@@ -240,6 +268,7 @@ public class ConsultationsArthrodese  {
         this.tDM_apophysaire_etage = tDM_apophysaire_etage;
         this.tDM_anomalie_transitionnelle = tDM_anomalie_transitionnelle;
         this.tDM_canal_lombaire_etroit = tDM_canal_lombaire_etroit;
+        this.tDM_qualite_fusion = tDM_qualite_fusion;
         this.iRM = iRM;
         this.iRM_pincementdiscal = iRM_pincementdiscal;
         this.iRM_pincementdiscal_etage = iRM_pincementdiscal_etage;
@@ -254,9 +283,8 @@ public class ConsultationsArthrodese  {
         this.iRM_volume_disque_hernie = iRM_volume_disque_hernie;
         this.iRM_etat_disques_sous_jacent = iRM_etat_disques_sous_jacent;
         this.iRM_etat_disques_sus_jacent = iRM_etat_disques_sus_jacent;
+        this.medecin = medecin;
     }
-
-
 
     public ConsultationsArthrodese(){
 
