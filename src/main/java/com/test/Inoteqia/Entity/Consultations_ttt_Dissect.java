@@ -12,7 +12,7 @@ public class Consultations_ttt_Dissect {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private String id;
+    private Long id;
    private String dateDeConsultation;
     private String age;
     private String address;
@@ -25,7 +25,7 @@ public class Consultations_ttt_Dissect {
     private String evolution;
 
     @ElementCollection
-    @CollectionTable(name = "arthrodese_nouvelles_symptomatologies", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "evolutionNouvellesSymptomatologiestttDissect", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "evolutionNouvellesSymptomatologies")
     private List<String> evolutionNouvellesSymptomatologies;
 

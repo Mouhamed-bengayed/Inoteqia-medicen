@@ -25,7 +25,7 @@ public class ConsultationsArthrodese  {
     private String evolution;
 
     @ElementCollection
-    @CollectionTable(name = "arthrodese_nouvelles_symptomatologies", joinColumns = @JoinColumn(name = "id"))
+    @CollectionTable(name = "evolutionNouvellesSymptomatologies", joinColumns = @JoinColumn(name = "id"))
     @Column(name = "evolutionNouvellesSymptomatologies")
     private List<String> evolutionNouvellesSymptomatologies;
 
