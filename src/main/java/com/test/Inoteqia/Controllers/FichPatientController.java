@@ -13,15 +13,18 @@ public class FichPatientController {
 @Autowired
 FichePatientService patientService;
     @PostMapping(value = "/register-patient/{id}")
-    public ResponseEntity<FichePatient> registerPatient(@RequestBody FichePatient p1,@PathVariable Long id) throws Exception {
-        return patientService.registerPatient(p1,id);
+    public ResponseEntity<FichePatient> registerPatient(
+            @RequestBody FichePatient p1,
+            @PathVariable Long id,
+            @RequestParam boolean isSpecialTreatmentSelected)  {
+        return patientService.registerPatient(p1, id, isSpecialTreatmentSelected);
     }
     @PutMapping(value = "/update-patient/{id}")
-    public ResponseEntity<FichePatient> updatePatient(@PathVariable   FichePatient FichePatient) throws Exception {
+    public ResponseEntity<FichePatient> updatePatient(@PathVariable   FichePatient FichePatient)  {
         return patientService.updatePatient(FichePatient);
     }
     @DeleteMapping(value = "/delete-patient/{id}")
-    public ResponseEntity<FichePatient> deletePatient(@PathVariable  Long id) throws Exception {
+    public ResponseEntity<FichePatient> deletePatient(@PathVariable  Long id)  {
         return patientService.deletePatient(id);
     }
 @GetMapping(value = "/getPatientById/{id}")

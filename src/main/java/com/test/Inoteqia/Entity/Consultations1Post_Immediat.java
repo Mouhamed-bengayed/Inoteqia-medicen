@@ -1,4 +1,6 @@
 package com.test.Inoteqia.Entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import javax.persistence.*;
 import java.util.List;
@@ -49,7 +51,13 @@ public class Consultations1Post_Immediat {
     private String examen_perinee_Reflexe_anal;
     @ManyToOne
     private Medecin medecin;
+// In Consultations1Post_Immediat.java
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fiche_patient_id")
+    @JsonIgnore
+
+    private FichePatient fichePatient;
     public Consultations1Post_Immediat(String date_chirurgie, String date_suivi, String dissectomie_etage, String liberation_post_etage, List<String> arthrodese_etage, String complications_per_operatoire, String complications_per_operatoire_auter, String lombalgie, String sciatique, String cruralgie, List<String> trouble_vesico_sphincteriens, String trouble_vesico_sphincteriens_Incontinence_urinaire, String testing_musculaire_l2, String testing_musculaire_l3, String testing_musculaire_l4, String testing_musculaire_l5, String testing_musculaire_s1, String sensibilte_musculaire_l2, String sensibilte_musculaire_l3, String sensibilte_musculaire_l4, String sensibilte_musculaire_l5, String sensibilte_musculaire_s1, String examen_perinee_sensibilite, String examen_perinee_Tonus_anal, String examen_perinee_Reflexe_anal) {
         this.date_chirurgie = date_chirurgie;
         this.date_suivi = date_suivi;
