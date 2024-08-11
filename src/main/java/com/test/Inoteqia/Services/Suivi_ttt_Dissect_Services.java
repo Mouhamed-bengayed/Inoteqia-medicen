@@ -295,7 +295,7 @@ public class Suivi_ttt_Dissect_Services {
 //        existingSuivi.setIRM_volume_disque_hernie(cryptDecrypt.encryptSensitiveInformation(updatedData.getIRM_volume_disque_hernie()));
 //        existingSuivi.setIRM_etat_disques_sous_jacent(cryptDecrypt.encryptSensitiveInformation(updatedData.getIRM_etat_disques_sous_jacent()));
 //        existingSuivi.setIRM_etat_disques_sus_jacent(cryptDecrypt.encryptSensitiveInformation(updatedData.getIRM_etat_disques_sus_jacent()));
-            existingSuivi.setDate_de_consultation(updatedData.getDate_de_consultation());
+//            existingSuivi.setDate_de_consultation(updatedData.getDate_de_consultation());
 //        existingSuivi.setFichePatient(fichePatient);
 
         // Save and return response

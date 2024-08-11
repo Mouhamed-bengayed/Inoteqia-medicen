@@ -1,13 +1,7 @@
 package com.test.Inoteqia.Services;
 
-import com.test.Inoteqia.Entity.Administrateur;
-import com.test.Inoteqia.Entity.Consultations_ttt_Dissect;
-import com.test.Inoteqia.Entity.FichePatient;
-import com.test.Inoteqia.Entity.Medecin;
-import com.test.Inoteqia.Reposotories.AdministrateurRepository;
-import com.test.Inoteqia.Reposotories.FichePatientRepository;
-import com.test.Inoteqia.Reposotories.MedecinRepository;
-import com.test.Inoteqia.Reposotories.Suivi_ttt_Dissect_Repository;
+import com.test.Inoteqia.Entity.*;
+import com.test.Inoteqia.Reposotories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,13 +13,19 @@ import java.util.List;
 public class FichePatientService {
 @Autowired
 private Suivi_ttt_Dissect_Repository consultations_ttt_dissectRepository;
+@Autowired
+private Suivi1Post_immediatRrepository consultations1PostImmediatRepository;
+@Autowired
+private SuiviArthrodeseReposotories consultationsArthrodeseRepository;
+@Autowired
+private StafffRepository stafffRepository;
     @Autowired
     private FichePatientRepository fichePatientRepository;
 @Autowired
 private MedecinRepository medecinRepository;
 @Autowired
 private AdministrateurRepository administrateurRepository;
-    public ResponseEntity<FichePatient> registerPatient(FichePatient p1, Long id, Boolean isSpecialTreatmentSelected) {
+    public ResponseEntity<FichePatient> registerPatient(FichePatient p1, Long id, String isSpecialTreatmentSelected) {
         // Find the Medecin and Administrateur by their IDs
         Administrateur administrateur = administrateurRepository.findById(id).orElse(null);
         Medecin medecin = medecinRepository.findById(id).orElse(null);
@@ -33,16 +33,39 @@ private AdministrateurRepository administrateurRepository;
         // Set the Medecin and Administrateur to the FichePatient
         p1.setMedecin(medecin);
         p1.setAdministrateur(administrateur);
-
+        p1.setTraitement_propose(isSpecialTreatmentSelected);
         // Save the FichePatient instance first
         FichePatient savedPatient = fichePatientRepository.save(p1);
 
         // If special treatment is selected, create and save the Consultations_ttt_Dissect instance
-        if (isSpecialTreatmentSelected) {
+        if (isSpecialTreatmentSelected.equals("antalgique")||isSpecialTreatmentSelected.equals("infiltrations")||
+                isSpecialTreatmentSelected.equals("corticoide")||isSpecialTreatmentSelected.equals("reeducation")
+                ||isSpecialTreatmentSelected.equals("Anti inflammatoire non stéroidien")||isSpecialTreatmentSelected.equals("autre")
+        )
+
+        {
             Consultations_ttt_Dissect consultations_ttt_dissect = new Consultations_ttt_Dissect();
             consultations_ttt_dissect.setFichePatient(savedPatient);
             savedPatient.getConsultationsTttDissects().add(consultations_ttt_dissect);
             consultations_ttt_dissectRepository.save(consultations_ttt_dissect);
+        }
+        if (isSpecialTreatmentSelected.equals("Discectomie")||isSpecialTreatmentSelected.equals("Arthrodèse")){
+            Consultations1Post_Immediat consultationPost_Immediat = new Consultations1Post_Immediat();
+            consultationPost_Immediat.setFichePatient(savedPatient);
+            savedPatient.getConsultations1PostImmediats().add(consultationPost_Immediat);
+            consultations1PostImmediatRepository.save(consultationPost_Immediat);
+        }
+        if (isSpecialTreatmentSelected.equals("Arthrodèse")){
+            ConsultationsArthrodese consultationsArthrodese = new ConsultationsArthrodese();
+            consultationsArthrodese.setFichePatient(savedPatient);
+            savedPatient.getConsultationsArthrodeses().add(consultationsArthrodese);
+            consultationsArthrodeseRepository.save(consultationsArthrodese);
+        }
+        if (isSpecialTreatmentSelected.equals("Staff")){
+            Staff stafff = new Staff();
+            stafff.setFichePatient(savedPatient);
+            savedPatient.getStaffs().add(stafff);
+            stafffRepository.save(stafff);
         }
 
         // Return the saved FichePatient instance

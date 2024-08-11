@@ -16,7 +16,7 @@ FichePatientService patientService;
     public ResponseEntity<FichePatient> registerPatient(
             @RequestBody FichePatient p1,
             @PathVariable Long id,
-            @RequestParam boolean isSpecialTreatmentSelected)  {
+            @RequestParam String isSpecialTreatmentSelected)  {
         return patientService.registerPatient(p1, id, isSpecialTreatmentSelected);
     }
     @PutMapping(value = "/update-patient/{id}")

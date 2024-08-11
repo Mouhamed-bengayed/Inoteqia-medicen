@@ -1,5 +1,6 @@
 package com.test.Inoteqia.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -28,6 +29,12 @@ public class Staff  {
 
     @ManyToOne
     private Medecin medecin;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fiche_patient_id")
+//    @JsonManagedReference
+    @JsonIgnore
+
+    private FichePatient fichePatient;
 
 
     public Staff(String date, String diagnostic_preop, String indication_Antalgique, String indication_Infiltrations_Nbreinfiltrations, String indication_Reeducation_Nbreseances, String indication_Dissectomie_etage, String indication_Liberation_etage, List<String> Indication_Arthrodese, String autreindication_Arthrodese,String conclusion) {

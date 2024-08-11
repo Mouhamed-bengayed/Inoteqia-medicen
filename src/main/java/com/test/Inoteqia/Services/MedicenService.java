@@ -97,7 +97,7 @@ CryptDecrypt cryptDecrypt;
         roles.add(userRole);
         user1.setRoles(roles);
         user1.setMailvalid(false);
-        user1.setStatus("en attente de validation");
+        user1.setStatus("En attente d'activation");
         user1.setBlockedByAdmin(false);
         user1.setAskForReactivation(false);
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

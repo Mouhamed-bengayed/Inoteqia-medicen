@@ -192,6 +192,10 @@ public class FichePatient  {
     @JsonIgnore
 
     private List<ConsultationsArthrodese> consultationsArthrodeses=new ArrayList<>();
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+
+    private List<Staff> staffs=new ArrayList<>();
     public FichePatient() {
     }
 

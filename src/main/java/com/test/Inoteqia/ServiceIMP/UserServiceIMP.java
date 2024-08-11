@@ -85,7 +85,7 @@ public class UserServiceIMP implements UserServiceInterface {
         if (user.isPresent()) {
 
             user1.setBlockedByAdmin(true);
-            user1.setStatus("bloqué");
+            user1.setStatus("Bloqué");
 
             this.utilisateurRepository.save(user1);
             try {
@@ -103,7 +103,7 @@ public class UserServiceIMP implements UserServiceInterface {
         String body = "Soyez le bienvenue une autre fois  "+ Newligne+"  Votre compte est maintenant débloqué  vous pouvez consulter une autre fois votre espace sur le plateforme"+ Newligne ;
         if (user.isPresent()) {
 
-            user1.setStatus("activé");
+            user1.setStatus("Activé");
             user1.setBlockedByAdmin(false);
             this.utilisateurRepository.save(user1);
             try {
@@ -123,7 +123,7 @@ public class UserServiceIMP implements UserServiceInterface {
         String body = "Soyez le bienvenue dans notre platforme  "+ Newligne+"  Votre compte est maintenant activé vous pouvez consulter votre espace sur le plateforme"+ Newligne ;
         if (user.isPresent()) {
 
-            user1.setStatus("activé");
+            user1.setStatus("Activé");
             user1.setValidtologin(true);
             this.utilisateurRepository.save(user1);
             try {
@@ -246,7 +246,7 @@ public class UserServiceIMP implements UserServiceInterface {
             Optional<Utilisateur> optionalUser = utilisateurRepository.findByEmail(email);
             if (optionalUser.isPresent()) {
                 Utilisateur user = optionalUser.get();
-                user.setStatus("en attente de réactivation");
+                user.setStatus("En attente de réactivation");
                 user.setAskForReactivation(true);
                 utilisateurRepository.save(user);
                 return true;
@@ -267,7 +267,7 @@ public class UserServiceIMP implements UserServiceInterface {
             user.setBlockedByAdmin(false);
             user.setValidtologin(true);
             user.setAskForReactivation(false);
-            user.setStatus("réactivé");
+            user.setStatus("Réactivé");
             return utilisateurRepository.save(user);
         } else {
             return null;
@@ -290,7 +290,7 @@ public class UserServiceIMP implements UserServiceInterface {
             user.setBlockedByAdmin(false);
             user.setValidtologin(true);
             user.setAskForReactivation(false);
-            user.setStatus("réactivé");
+            user.setStatus("Réactivé");
             return medecinRepository.save(user);
         } else {
             return null;
