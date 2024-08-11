@@ -20,10 +20,10 @@ FichePatientService patientService;
             @RequestParam String isSpecialTreatmentSelected)  {
         return patientService.registerPatient(p1, id, isSpecialTreatmentSelected);
     }
-    @PutMapping(value = "/register-patient/{id}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<FichePatient> registerfichePatient(@RequestBody FichePatient p1) throws Exception {
-        return patientService.registerPatient(p1);
-    }
+//    @PutMapping(value = "/register-patient/{id}", consumes = "application/json", produces = "application/json")
+//    public ResponseEntity<FichePatient> registerfichePatient(@RequestBody FichePatient p1) throws Exception {
+//        return patientService.registerPatient(p1);
+//    }
     @PutMapping(value = "/update-patient/{id}")
     public ResponseEntity<FichePatient> updatePatient(@PathVariable   FichePatient FichePatient)  {
         return patientService.updatePatient(FichePatient);

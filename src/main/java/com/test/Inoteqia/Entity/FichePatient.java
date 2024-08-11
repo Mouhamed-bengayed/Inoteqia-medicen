@@ -190,7 +190,23 @@ public class FichePatient  {
     @ManyToOne
     private Administrateur administrateur;
 // In FichePatient.java
+@OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+@JsonIgnore
+private List<Consultations1Post_Immediat> consultations1PostImmediats=new ArrayList<>();
 
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+
+    private List<Consultations_ttt_Dissect> consultationsTttDissects=new ArrayList<>();
+
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+
+    private List<ConsultationsArthrodese> consultationsArthrodeses=new ArrayList<>();
+    @OneToMany(mappedBy = "fichePatient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+
+    private List<Staff> staffs=new ArrayList<>();
 
 
 

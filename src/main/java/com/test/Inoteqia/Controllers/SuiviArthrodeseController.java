@@ -1,6 +1,7 @@
 package com.test.Inoteqia.Controllers;
 
 import com.test.Inoteqia.Entity.ConsultationsArthrodese;
+import com.test.Inoteqia.Reposotories.FichePatientRepository;
 import com.test.Inoteqia.Services.SuiviArthrodeseServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +17,8 @@ public class SuiviArthrodeseController {
     @Autowired
     SuiviArthrodeseServices suiviArthrodeseServices;
 
-    @PostMapping(value = "/register/Suivi_Arthodese")
-    public ResponseEntity<ConsultationsArthrodese> registerSuiviArthrodese(@Validated @RequestBody ConsultationsArthrodese suiviArthrodese) throws Exception {
-        return suiviArthrodeseServices.registerSuiviArthrodese(suiviArthrodese);
+    @PostMapping(value = "/register/Suivi_Arthodese/{patientId}")
+    public ResponseEntity<ConsultationsArthrodese> registerSuiviArthrodese(@Validated @RequestBody ConsultationsArthrodese suiviArthrodese,@PathVariable ("patientId")Long patientId) throws Exception {
+        return suiviArthrodeseServices.registerSuiviArthrodese(suiviArthrodese,patientId);
     }
 }

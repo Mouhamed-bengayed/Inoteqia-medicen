@@ -18,8 +18,8 @@ public class StafffController {
     StafffServices stafffServices;
 
 
-    @PostMapping(value = "/register/staff/")
-    public ResponseEntity<Staff> registerStaff(@Validated @RequestBody Staff staffregi) throws Exception {
-        return stafffServices.registerStaff(staffregi);
+    @PostMapping(value = "/register/staff/{patientId}")
+    public ResponseEntity<Staff> registerStaff(@Validated @RequestBody Staff staffregi ,@PathVariable ("patientId")Long patientId) throws Exception {
+        return stafffServices.registerStaff(staffregi,patientId);
     }
 }

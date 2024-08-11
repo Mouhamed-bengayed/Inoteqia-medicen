@@ -18,9 +18,9 @@ public class Suivi1Post_ImmediatController {
     Suivi1PostServices suivi1PostServices;
 
 
-    @PostMapping(value = "/register/suivi1Post-Immediatt/")
-    public ResponseEntity<Consultations1Post_Immediat> registerSuivi1_Immediat(@Validated @RequestBody Consultations1Post_Immediat Suivi1Post_Immediat) throws Exception {
-        return suivi1PostServices.registerSuivi1Post_Immediat(Suivi1Post_Immediat);
+    @PostMapping(value = "/register/suivi1Post-Immediatt/{patientId}")
+    public ResponseEntity<Consultations1Post_Immediat> registerSuivi1_Immediat(@Validated @RequestBody Consultations1Post_Immediat Suivi1Post_Immediat,@PathVariable ("patientId")Long patientId) throws Exception {
+        return suivi1PostServices.registerSuivi1Post_Immediat(Suivi1Post_Immediat,patientId);
     }
 
 }
