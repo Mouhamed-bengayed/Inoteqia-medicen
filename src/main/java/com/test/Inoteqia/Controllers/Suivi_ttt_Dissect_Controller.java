@@ -21,7 +21,7 @@ public class Suivi_ttt_Dissect_Controller {
 
 
     @PutMapping(value = "/register/Suivi_ttt_Dissect/{patientId}", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Consultations_ttt_Dissect> registerSuivi_ttt_Dissect(@RequestBody ConsultationsDto suivi_ttt_Dissect, @PathVariable ("patientId") Long patientId) throws Exception {
-        return suivi_ttt_dissect_services.registerSuivittt_Dissect(suivi_ttt_Dissect,patientId);
+    public ResponseEntity<Consultations_ttt_Dissect> registerSuivi_ttt_Dissect(@RequestBody Consultations_ttt_Dissect suivi_ttt_Dissect) throws Exception {
+        return suivi_ttt_dissect_services.registerSuivittt_Dissect(suivi_ttt_Dissect);
     }
 }

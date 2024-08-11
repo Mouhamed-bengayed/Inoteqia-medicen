@@ -1,5 +1,6 @@
 package com.test.Inoteqia.Controllers;
 
+import com.test.Inoteqia.Entity.Consultations_ttt_Dissect;
 import com.test.Inoteqia.Entity.FichePatient;
 import com.test.Inoteqia.Services.FichePatientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ FichePatientService patientService;
             @PathVariable Long id,
             @RequestParam String isSpecialTreatmentSelected)  {
         return patientService.registerPatient(p1, id, isSpecialTreatmentSelected);
+    }
+    @PutMapping(value = "/register-patient/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<FichePatient> registerfichePatient(@RequestBody FichePatient p1) throws Exception {
+        return patientService.registerPatient(p1);
     }
     @PutMapping(value = "/update-patient/{id}")
     public ResponseEntity<FichePatient> updatePatient(@PathVariable   FichePatient FichePatient)  {

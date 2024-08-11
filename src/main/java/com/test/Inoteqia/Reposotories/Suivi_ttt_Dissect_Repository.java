@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface Suivi_ttt_Dissect_Repository extends JpaRepository<Consultations_ttt_Dissect,Long> {
-    Consultations_ttt_Dissect findByFichePatientId(Long patientId);
 }
